@@ -1,0 +1,505 @@
+{
+    "openapi" : "3.0.0",
+    "info" : {
+      "title" : "ISG Partners API",
+      "description" : "This is ISG Partners API. This API can be used to create, update and retrieve a partner.\n",
+      "contact" : {
+        "email" : "test@test.com"
+      },
+      "version" : "1.0.0"
+    },
+    "externalDocs" : {
+      "description" : "Find out more about Swagger",
+      "url" : "http://swagger.io"
+    },
+    "servers" : [ {
+      "url" : "https://developer.prudential.com/isg",
+      "description" : "Production"
+    } ],
+    "tags" : [ {
+      "name" : "Partners",
+      "description" : "Maintain ISG Partners"
+    } ],
+    "paths" : {
+      "/partner" : {
+        "post" : {
+          "tags" : [ "Partner" ],
+          "summary" : "Add a new Partner to Partners Collection",
+          "operationId" : "addPartner",
+          "requestBody" : {
+            "$ref": "#/components/requestBodies/Partner"
+          },
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  }
+                }
+              }
+            },
+            "204" : {
+              "description" : "No content"
+            },
+            "400" : {
+              "description" : "Bad Request Format",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "409" : {
+              "description" : "Existing data",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch" : {
+          "tags" : [ "Partner" ],
+          "summary" : "Update an existing partner",
+          "operationId" : "updatePartner",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Partner"
+                },
+                "example" : {
+                  "partnerKey" : "db05addb-6e30-4bb1-a1b9-f216ae851fc1",
+                  "engagements" : [ {
+                    "effectiveDate" : {
+                      "start" : "2019-07-18",
+                      "end" : "2019-12-20"
+                    },
+                    "testDetails" : "This is a test for updated Baby List 1"
+                  } ],
+                  "communications" : {
+                    "emails" : [ {
+                      "id" : "EM12",
+                      "content" : "This is additional email content"
+                    } ]
+                  },
+                  "actionUserId" : "x866876"
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Successful Operation"
+            },
+            "204" : {
+              "description" : "No content"
+            },
+            "400" : {
+              "description" : "Bad Request Format - Validation Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "409" : {
+              "description" : "Existing data",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/partner/{PartnerKey}" : {
+        "get" : {
+          "tags" : [ "Partner" ],
+          "summary" : "Finds Partners by Partner Key",
+          "operationId" : "findPartnersByPartnerKey",
+          "parameters" : [ {
+            "name" : "PartnerKey",
+            "in" : "path",
+            "description" : "Unique Key of partner",
+            "required" : true,
+            "style" : "simple",
+            "explode" : true,
+            "schema" : {
+              "type" : "string",
+              "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example" : "db05addb-6e30-4bb1-a1b9-f216ae851fc1"
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Successful Operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Partner"
+                  }
+                },
+                "application/xml" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Partner"
+                  }
+                }
+              }
+            },
+            "204" : {
+              "description" : "No content (e.g. for partnerKey not found)"
+            },
+            "400" : {
+              "description" : "Bad Request Format - Validation Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "Partner" ],
+          "summary" : "Delete a Partner",
+          "operationId" : "deletePartnersByPartnerKey",
+          "parameters" : [ {
+            "name" : "PartnerKey",
+            "in" : "path",
+            "description" : "Unique Key of partner",
+            "required" : true,
+            "style" : "simple",
+            "explode" : true,
+            "schema" : {
+              "type" : "string",
+              "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example" : "0b3b6cbb-ddf6-45f9-8dbb-338156bc42bb"
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Successful Operation"
+            },
+            "204" : {
+              "description" : "No content"
+            },
+            "400" : {
+              "description" : "Bad Request Format - Validation Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 10,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/ApiResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "security": [
+        {"api_key": []}
+    ],
+    "components" : {
+      "schemas" : {
+        "Partner" : {
+          "required" : [ "partnerKey", "partnerName" ],
+          "type" : "object",
+          "properties" : {
+            "partnerKey" : {
+              "type" : "string",
+              "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "partnerName" : {
+              "type" : "string",
+              "pattern": "^[a-zA-Z\\s]{3, 25}$",
+              "minLength": 3,
+              "maxLength": 25
+            },
+            "engagements" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/Partner_engagements"
+              }
+            },
+            "entitlements" : {
+              "$ref" : "#/components/schemas/Partner_entitlements"
+            },
+            "communications" : {
+              "$ref" : "#/components/schemas/Partner_communications"
+            },
+            "userExperience" : {
+              "$ref" : "#/components/schemas/Partner_userExperience"
+            },
+            "action" : {
+              "type" : "string",
+              "description" : "This field is necessary to know what is the current action and to add a new row in the partner_history collection to keep track of the changes"
+            },
+            "actionUserId" : {
+              "type" : "string",
+              "description" : "User Id of the person adding the partner"
+            },
+            "actionDate" : {
+              "type" : "string",
+              "description" : "Date timestamp of the action"
+            }
+          },
+          "xml" : {
+            "name" : "Partner"
+          }
+        },
+        "ApiResponse" : {
+          "type" : "object",
+          "properties" : {
+            "code" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "severity" : {
+              "type" : "string"
+            },
+            "message" : {
+              "type" : "string"
+            },
+            "details" : {
+              "type" : "string"
+            }
+          }
+        },
+        "inline_response_200" : {
+          "type" : "object",
+          "properties" : {
+            "PartnerKey" : {
+              "type" : "string",
+              "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+              "minLength": 36,
+              "maxLength": 36,
+              "example" : "db05addb-6e30-4bb1-a1b9-f216ae851fc1"
+            }
+          }
+        },
+        "Partner_effectiveDate" : {
+          "type" : "object",
+          "properties" : {
+            "start" : {
+              "type" : "string",
+              "description" : "Partner Activation Effective Date",
+              "pattern": "^[0-9]{4}\\-[0-9]{1,2}\\-[0-9]{1,2}$",
+              "minLength": 8,
+              "maxLength": 10
+            },
+            "end" : {
+              "type" : "string",
+              "description" : "Partner Activation End Date",
+              "pattern": "^[0-9]{4}\\-[0-9]{1,2}\\-[0-9]{1,2}$",
+              "minLength": 8,
+              "maxLength": 10
+            }
+          }
+        },
+        "Partner_engagements" : {
+          "type" : "object",
+          "properties" : {
+            "effectiveDate" : {
+              "$ref" : "#/components/schemas/Partner_effectiveDate"
+            },
+            "testDetails" : {
+              "type" : "string",
+              "description" : "Details of this partner test"
+            }
+          }
+        },
+        "Partner_entitlements_accessPrucom" : {
+          "type" : "object",
+          "properties" : {
+            "access" : {
+              "type" : "string"
+            },
+            "redirectUrl" : { }
+          },
+          "description" : "Indicatory to describe if applicant from this partner can access prudential.com"
+        },
+        "Partner_entitlements" : {
+          "type" : "object",
+          "properties" : {
+            "policyQuote" : {
+              "type" : "string",
+              "description" : "Indicatory to describe if this partner Query Quote"
+            },
+            "applyForPolicy" : {
+              "type" : "string",
+              "description" : "Indicatory to describe if applicant from this partner can apply for Quote"
+            },
+            "accessPrucom" : {
+              "$ref" : "#/components/schemas/Partner_entitlements_accessPrucom"
+            }
+          }
+        },
+        "Partner_communications_emails" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "description" : "Email template unique id"
+            },
+            "content" : {
+              "type" : "string",
+              "description" : "Email customization content"
+            }
+          }
+        },
+        "Partner_communications" : {
+          "type" : "object",
+          "properties" : {
+            "emails" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/Partner_communications_emails"
+              }
+            }
+          }
+        },
+        "Partner_userExperience" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "description" : "Partner Co-branding template unique id"
+            },
+            "content" : {
+              "type" : "string",
+              "description" : "This is sample Co-branding customization content"
+            }
+          }
+        }
+      },
+      "requestBodies" : {
+        "Partner" : {
+          "description" : "Partner object that needs to be added to the partners collection",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Partner"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Partner"
+              }
+            }
+          },
+          "required" : true
+        }
+      },
+      "securitySchemes" : {
+        "api_key" : {
+          "type" : "apiKey",
+          "name" : "api_key",
+          "in" : "header"
+        }
+      }
+    }
+  }

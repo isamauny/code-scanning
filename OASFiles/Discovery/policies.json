@@ -1,0 +1,4513 @@
+{
+    "openapi" : "3.0.0",
+    "info" : {
+      "title" : "Policies API",
+      "description" : "Policies API will support inquiry of life policy and annuity contract details",
+      "contact" : {
+        "email" : "api-support@prudential.com"
+      },
+      "license" : {
+        "name" : "Apache 2.0",
+        "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version" : "1.0.22",
+      "x-logo": {
+        "url": "./Pru_RGB.png",
+        "backgroundColor": "#FFFFFF",
+        "altText": "Prudential logo"
+      }
+    },
+    "servers" : [ {
+      "url" : "https://developer.prudential.com/isg",
+      "description" : "Production"
+    } ],
+    "security" : [ {
+      "bearerAuth" : [ ]
+    }, {
+      "basicAuth" : [ ]
+    } ],
+    "tags" : [ {
+      "name" : "policy inquiry",
+      "description" : "API to get Policy Details"
+    } ],
+    "paths" : {
+      "/policies/{policyNumber}" : {
+        "get" : {
+          "tags" : [ "policy" ],
+          "summary" : "gets the policy associated with the policy number",
+          "description" : "By passing in the policy number, the policy details are returned",
+          "operationId" : "getPolicy",
+          "parameters" : [ {
+            "name" : "targetenv",
+            "in" : "query",
+            "description" : "decides the target environment",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string",
+              "default" : "stage"
+            }
+          }, {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+       
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Policy"
+                  }
+                }
+              }
+            },
+  
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/benefits" : {
+        "get" : {
+          "tags" : [ "benefits" ],
+          "summary" : "gets all benefits for the given contract/policy number",
+          "description" : "By passing in the contract/policy number, all benefits tied to the contract/policy are returned",
+          "parameters" : [ {
+            "name" : "lob",
+            "in" : "query",
+            "description" : "Identifies the line of business e.g.ANNUITY",
+            "required" : true,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "categories[in]",
+            "in" : "query",
+            "description" : "Comma separated category codes tha filter benefits [in] query. If not provided, all benefits retrieved.",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "targetenv",
+            "in" : "query",
+            "description" : "decides the target environment",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string",
+              "default" : "stage"
+            }
+          }, {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "$ref" : "#/components/schemas/Benefits"
+                    }
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/investments" : {
+        "get" : {
+          "tags" : [ "investments" ],
+          "summary" : "gets all contract investments",
+          "description" : "By passing in the contract number, all contract related invetments are returned.",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/investmentsResponse"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/investments/{investmentType}" : {
+        "get" : {
+          "tags" : [ "investments" ],
+          "summary" : "gets specified investment type",
+          "description" : "By passing in the contract number and investment type (e.g F,V or I), specified invetments are returned.",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "investmentType",
+            "in" : "path",
+            "description" : "type of investments for filtering",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/investmentsResponse"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/newBusinessSummary" : {
+        "get" : {
+          "tags" : [ "new business summary" ],
+          "summary" : "gets all data related to new business status",
+          "description" : "By passing in the contract number, all new business status related data is returned.",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/newBusinessSummaryResponse"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/producers" : {
+        "get" : {
+          "tags" : [ "producers" ],
+          "summary" : "gets all prodcuers related to the policy",
+          "description" : "By passing in the policy number, all policy related producers are returned",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "array",
+                    "maxItems": 20,
+                    "items" : {
+                      "allOf" : [ {
+                        "$ref" : "#/components/schemas/BaseProducer"
+                      }, {
+                        "type" : "object",
+                        "properties" : {
+                          "agent" : {
+                            "type" : "object",
+                            "properties" : {
+                              "href" : {
+                                "type" : "string",
+                                "example" : "/policies/L1234567/producers/ZD9973?relationRoleType=38"
+                              }
+                            }
+                          }
+                        }
+                      } ]
+                    }
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/producers/{producerId}" : {
+        "get" : {
+          "tags" : [ "producers" ],
+          "summary" : "gets the details and contract history of the producer",
+          "description" : "By passing in the policy number and prodcuer id, details and contract history of the producer is returned",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "producerId",
+            "in" : "path",
+            "description" : "Id of the producer to return",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "relationRoleType",
+            "in" : "query",
+            "description" : "Relationship Role of the Producer",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Producer"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/activities" : {
+        "get" : {
+          "tags" : [ "activities" ],
+          "summary" : "gets all policy activities",
+          "description" : "By passing in the policy number, all policy related activies are returned",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "CarrierAdminSystemType",
+            "in" : "query",
+            "description" : "Admin System type code",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "CarrierCode",
+            "in" : "query",
+            "description" : "Company code of the policy issuing company",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Activity"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/activities/{activityType}" : {
+        "get" : {
+          "tags" : [ "activities" ],
+          "summary" : "gets policy activity details",
+          "description" : "By passing in the policy number and activity type all policy activity details of given type for a given date is returned",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "activityType",
+            "in" : "path",
+            "description" : "Type of the Activity",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "ActivityDate",
+            "in" : "query",
+            "description" : "Date for which the activity detils needs to be fetched",
+            "required" : true,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "CarrierAdminSystemType",
+            "in" : "query",
+            "description" : "Admin System type code",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "CarrierCode",
+            "in" : "query",
+            "description" : "Company code of the policy issuing company",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "oneOf" : [ {
+                      "$ref" : "#/components/schemas/PaymentActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/SRPChangeActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/DeathClaimActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/BenefitChangeActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/FullSurrenderActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/PremiumReversalActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/AniversaryUpdateActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/ModeSRPAddRemoveActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/ReinstateActivityDetail"
+                    }, {
+                      "$ref" : "#/components/schemas/AssigneeOwnerChangeActivityDetail"
+                    } ]
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/programs" : {
+        "get" : {
+          "tags" : [ "programs" ],
+          "summary" : "gets programs related to the Policy/Contract",
+          "description" : "gets programs related to the Policy/Contract, be they money in / money out / money around",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "lob",
+            "in" : "query",
+            "description" : "Identifies the line of business e.g.ANNUITY",
+            "required" : true,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "oneOf" : [ {
+                      "$ref" : "#/components/schemas/Programs"
+                    } ]
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/customerServiceTransactions" : {
+        "get" : {
+          "tags" : [ "customerServiceTransactions" ],
+          "summary" : "gets transactions related to Policy/Contract",
+          "description" : "gets transactions related to Policy/Contract with pagination",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "lob",
+            "in" : "query",
+            "description" : "Identifies the line of business e.g.ANNUITY",
+            "required" : true,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "limit",
+            "in" : "query",
+            "description" : "Limit or page size for Pagination",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "offset",
+            "in" : "query",
+            "description" : "Offset or start record for Pagination",
+            "required" : false,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/customerServiceTransactions/{transactionIdentifier}" : {
+        "get" : {
+          "tags" : [ "customerServiceTransactions" ],
+          "summary" : "gets transaction details for given transaction identifier",
+          "description" : "gets transaction details related to policy or contract for given transaction identifier",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "transactionIdentifier",
+            "in" : "path",
+            "description" : "Internal identifier used to uniquely identify transactions.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "lob",
+            "in" : "query",
+            "description" : "Identifies the line of business e.g.ANNUITY",
+            "required" : true,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/CustomerServiceTransaction"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/correspondence" : {
+        "post" : {
+          "tags" : [ "correspondence" ],
+          "summary" : "Initiates correspondence for policy",
+          "description" : "Policy number is used to get Policy Info and Party Info and create request to CMAS for document publish,send and archive",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Correspondence to generate and send",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Correspondence"
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/CorrespondenceResponse"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/documents/{documentId}" : {
+        "get" : {
+          "tags" : [ "correspondence" ],
+          "summary" : "Get published document for policy",
+          "description" : "Policy number is used to filter through policies",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "documentId",
+            "in" : "path",
+            "description" : "Published Document Id",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "userId",
+            "in" : "query",
+            "description" : "User Id for example CSA",
+            "required" : true,
+            "style" : "form",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "format",
+            "in" : "query",
+            "description" : "Format could be read ro write. Defaults to read",
+            "required" : false,
+            "style" : "form",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Document"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/{policyNumber}/roles" : {
+        "get" : {
+          "tags" : [ "roles" ],
+          "summary" : "contract role information",
+          "description" : "gets role information for the given policy number",
+          "parameters" : [ {
+            "name" : "policyNumber",
+            "in" : "path",
+            "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+            "required" : true,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "lob",
+            "in" : "query",
+            "description" : "Identifies the line of business e.g.ANNUITY",
+            "required" : true,
+            "style" : "form",
+            "explode" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Roles"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/correspondence/delivery/status" : {
+        "post" : {
+          "tags" : [ "correspondence" ],
+          "summary" : "Status update",
+          "description" : "Updates the status of delivery to customer in Aurora and the Policy DB",
+          "requestBody" : {
+            "description" : "Correspondence to generate and send",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Case"
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Case"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/documents" : {
+        "post" : {
+          "tags" : [ "documents" ],
+          "summary" : "The API to search the documents in Edocs",
+          "description" : "The API to search the documents in Edocs",
+          "parameters" : [ {
+            "name" : "appId",
+            "in" : "header",
+            "description" : "The App Id of the Application calling the documents search API",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Searches the documents and sends the list back",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SearchDocument"
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/SearchDocumentsResponse"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/policies/acquiredocument" : {
+        "post" : {
+          "tags" : [ "documents" ],
+          "summary" : "The API to get document from Edocs",
+          "description" : "The API to get document from Edocs",
+          "parameters" : [ {
+            "name" : "X-PruRequestID",
+            "in" : "header",
+            "description" : "Unique request id for each service call. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruSourceIdentity",
+            "in" : "header",
+            "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "X-PruAuthJWT",
+            "in" : "header",
+            "description" : "Token generated based on SSO ID. Set by client",
+            "required" : false,
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Get the document and send back",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AcquireDocumentRequest"
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "successful operation",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/AcquireDocumentsResponse"
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "Resource Not Found Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "503" : {
+              "description" : "Service Unavailable Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components" : {
+      "schemas" : {
+        "Policy" : {
+          "properties" : {
+            "policyNumber" : {
+              "type" : "string",
+              "example" : "L3549347"
+            },
+            "issueDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "1900-01-01"
+            },
+            "issueState" : {
+              "type" : "string",
+              "example" : "PA"
+            },
+            "carrier" : {
+              "type" : "string",
+              "example" : "PRUDENTIAL ANNUITIES LIFE ASSURANCE CORPORATION"
+            },
+            "market" : {
+              "type" : "string",
+              "example" : "NQ"
+            },
+            "maturityDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2034-04-01"
+            },
+            "productName" : {
+              "type" : "string",
+              "example" : "Advanced Series XTra Credit SIX"
+            },
+            "productCode" : {
+              "type" : "string",
+              "example" : "TESSEN204"
+            },
+            "issueCompany" : {
+              "type" : "string",
+              "example" : "Pruco Life of Arizona"
+            },
+            "restrictions" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Code"
+              }
+            },
+            "policyStatus" : {
+              "type" : "string",
+              "example" : "Premium Paying"
+            },
+            "paidToDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2009-01-01"
+            },
+            "faceAmount" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "premiumAmount" : {
+              "type" : "number",
+              "example" : 45.14
+            },
+            "paymentMode" : {
+              "type" : "string",
+              "example" : "Monthly",
+              "default" : ""
+            },
+            "annualized" : {
+              "type" : "number",
+              "example" : 541.68
+            },
+            "modalPremiumInfo" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Policy_modalPremiumInfo"
+              }
+            },
+            "riderFaceAmount" : {
+              "type" : "number",
+              "example" : 20000
+            },
+            "dividends" : {
+              "type" : "string"
+            },
+            "totalLeanAmount" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "netDeathBenefit" : {
+              "type" : "string"
+            },
+            "aggregateDeathBenefit" : {
+              "type" : "string"
+            },
+            "adbAmount" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "adbClass" : {
+              "type" : "string"
+            },
+            "livingNeedsBenefit" : {
+              "type" : "string"
+            },
+            "terminalIllnessRider" : {
+              "type" : "string"
+            },
+            "waiverOfPremium" : {
+              "type" : "string"
+            },
+            "awpApplicant" : {
+              "type" : "string"
+            },
+            "unemploymentBenefitUsed" : {
+              "type" : "string"
+            },
+            "unemployApprovalDate" : {
+              "type" : "string",
+              "format" : "date"
+            },
+            "unemployBenefitStartDate" : {
+              "type" : "string",
+              "format" : "date"
+            },
+            "firstUnemployPremiumPaid" : {
+              "type" : "number"
+            },
+            "unemployWaiverEndDate" : {
+              "type" : "string",
+              "format" : "date"
+            },
+            "contractWithdrawalValues" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/ContractWithdrawalValues"
+              }
+            },
+            "inquireBenefitDetails" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/InquireBenefitDetails"
+              }
+            },
+            "coverageRider" : {
+              "properties" : {
+                "coverageStatusType" : {
+                  "type" : "string",
+                  "example" : "Death"
+                },
+                "coverageType" : {
+                  "type" : "string",
+                  "example" : "Child Rider"
+                },
+                "currentAmount" : {
+                  "type" : "number",
+                  "example" : 10000
+                },
+                "effectiveDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "example" : "2009-10-28"
+                },
+                "kindCode" : {
+                  "type" : "string",
+                  "example" : "CHILDPR"
+                },
+                "modalPremiumAmount" : {
+                  "type" : "number",
+                  "example" : 51.50
+                },
+                "productCode\"" : {
+                  "type" : "string",
+                  "example" : "CHILDPR"
+                },
+                "terminationDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "example" : "2010-10-28"
+                },
+                "participantsInsured" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ParticipantsInsured"
+                  }
+                }
+              }
+            },
+            "links" : {
+              "$ref" : "#/components/schemas/Policy_links"
+            }
+          }
+        },
+        "ContractWithdrawalValues" : {
+          "properties" : {
+            "withdrawalSurrenderOrContingentDeferredSalesCharge" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "otherFeesAndCharges" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "surrenderValue" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "cdscEndDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2017-11-24"
+            },
+            "cdscMethod" : {
+              "type" : "string",
+              "example" : "Premium Payment"
+            },
+            "amountAvailableWithoutCdscOrFreeWithdrawalAmount" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "guaranteedMinimumSurrenderValue" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "contractValue" : {
+              "type" : "number",
+              "example" : 200000
+            }
+          }
+        },
+        "InquireBenefitDetails" : {
+          "type": "object",
+          "properties" : {
+            "deathBenefit" : {
+              "type" : "number",
+              "example" : 200000
+            }
+          }
+        },
+        "ytditdValues" : {
+          "properties" : {
+            "totalPremiums" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "totalBonusAmount" : {
+              "type" : "number",
+              "example" : 200000
+            },
+            "totalWithdrawals" : {
+              "type" : "number",
+              "example" : 200000
+            }
+          }
+        },
+        "Roles" : {
+          "properties" : {
+            "roleKey" : {
+              "type" : "string",
+              "example" : "7764"
+            },
+            "roleType" : {
+              "type" : "string",
+              "example" : "Individual"
+            },
+            "roleCode" : {
+              "type" : "string",
+              "example" : "P"
+            },
+            "subRoleType" : {
+              "type" : "string",
+              "example" : "Individual"
+            },
+            "subRoleCode" : {
+              "type" : "string",
+              "example" : "P"
+            },
+            "roleStatus" : {
+              "type" : "string",
+              "example" : "Active"
+            },
+            "relationRole" : {
+              "type" : "string",
+              "example" : "Owner"
+            },
+            "firstName" : {
+              "type" : "string",
+              "example" : "John"
+            },
+            "lastName" : {
+              "type" : "string",
+              "example" : "Doe"
+            },
+            "middleName" : {
+              "type" : "string",
+              "example" : "M"
+            },
+            "fullName" : {
+              "type" : "string",
+              "example" : "John M Doe"
+            },
+            "gender" : {
+              "type" : "string",
+              "example" : "Male"
+            },
+            "age" : {
+              "type" : "number",
+              "example" : 36
+            },
+            "birthDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "1982-01-01"
+            },
+            "companyCode" : {
+              "type" : "string",
+              "example" : "43"
+            },
+            "beneficiarySharePercentage" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "beneficiaryToOwnerRelationship\"" : {
+              "type" : "string",
+              "example" : "54"
+            },
+            "interestedParty" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/InterestedParty"
+              }
+            },
+            "address" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/PostalAddress"
+              }
+            },
+            "telephoneNumbers" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/TelephoneNumber"
+              }
+            },
+            "emailAddresses" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/EmailAddress"
+              }
+            }
+          }
+        },
+        "InterestedParty" : {
+          "properties" : {
+            "TypeDescription" : {
+              "type" : "string",
+              "example" : "UserIdentifier"
+            },
+            "PartyIdentifier" : {
+              "type" : "string",
+              "example" : "12342351"
+            }
+          }
+        },
+        "PostalAddress" : {
+          "required" : [ "city", "postalCode", "state", "street1" ],
+          "properties" : {
+            "street1" : {
+              "type" : "string",
+              "example" : "100 South Street"
+            },
+            "street2" : {
+              "type" : "string",
+              "example" : "Main Building"
+            },
+            "street3" : {
+              "type" : "string"
+            },
+            "city" : {
+              "type" : "string",
+              "example" : "AKRON"
+            },
+            "state" : {
+              "type" : "string",
+              "example" : "OHIO"
+            },
+            "country" : {
+              "type" : "string",
+              "example" : "US"
+            },
+            "postalCode" : {
+              "type" : "string",
+              "example" : "44301"
+            },
+            "addressType" : {
+              "type" : "string",
+              "example" : "Mailing"
+            },
+            "undeliverable" : {
+              "type" : "string"
+            }
+          }
+        },
+        "TelephoneNumber" : {
+          "properties" : {
+            "number" : {
+              "type" : "string",
+              "example" : "123456789"
+            },
+            "type" : {
+              "type" : "string"
+            }
+          }
+        },
+        "EmailAddress" : {
+          "properties" : {
+            "address" : {
+              "type" : "string",
+              "example" : "person@place.com"
+            },
+            "type" : {
+              "type" : "string",
+              "example" : "personal"
+            }
+          }
+        },
+        "ParticipantsInsured" : {
+          "properties" : {
+            "particiantKey" : {
+              "type" : "string",
+              "example" : "Child1"
+            },
+            "particiantStatusType" : {
+              "type" : "string",
+              "example" : "Active"
+            },
+            "terminationDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2025-10-28"
+            },
+            "birthDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2000-09-30"
+            },
+            "firstName" : {
+              "type" : "string",
+              "example" : "FIRSTNAME"
+            },
+            "lastName" : {
+              "type" : "string",
+              "example" : "LASTNAME"
+            },
+            "genderType" : {
+              "type" : "string",
+              "example" : "Female"
+            },
+            "fullName" : {
+              "type" : "string",
+              "example" : "FIRSTNAME LASTNAME"
+            }
+          }
+        },
+        "Benefits" : {
+          "properties" : {
+            "code" : {
+              "type" : "string",
+              "description" : "Reference to the benefit for additional information e.g. category, product name and code",
+              "example" : "IG013"
+            },
+            "policyNumber" : {
+              "type" : "string",
+              "description" : "Reference back to the policy/contract that this benefit is associated with.",
+              "example" : "L3549347"
+            },
+            "name" : {
+              "type" : "string",
+              "description" : "Name of the benefit.",
+              "example" : "Basic Death Benefit Net Pay"
+            },
+            "description" : {
+              "type" : "string",
+              "description" : "Description of benefit.",
+              "example" : "BenefitComponent"
+            },
+            "categories" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Benefits_categories"
+              }
+            },
+            "components" : {
+              "type" : "array",
+              "description" : "The benefit values",
+              "example" : [ {
+                "code" : "AnnlRollUp",
+                "description" : "BenefitCode",
+                "dataType" : "AMOUNT",
+                "value" : "0.0"
+              }, {
+                "code" : "ESTPROVAL",
+                "description" : "Estimated Protected Withdrawal Value",
+                "dataType" : "AMOUNT",
+                "value" : "783729.39"
+              } ],
+              "items" : {
+                "$ref" : "#/components/schemas/Benefits_components"
+              }
+            }
+          }
+        },
+        "BaseProducer" : {
+          "properties" : {
+            "contract" : {
+              "type" : "string",
+              "example" : "D9973"
+            },
+            "partyType" : {
+              "type" : "string",
+              "example" : "Individual"
+            },
+            "agency" : {
+              "type" : "string"
+            },
+            "prefix" : {
+              "type" : "string",
+              "example" : "MR"
+            },
+            "firstName" : {
+              "type" : "string",
+              "example" : "KHACHER"
+            },
+            "middleName" : {
+              "type" : "string",
+              "example" : "C"
+            },
+            "lastName" : {
+              "type" : "string",
+              "example" : "LABRECQUE"
+            },
+            "suffix" : {
+              "type" : "string"
+            },
+            "fullName" : {
+              "type" : "string",
+              "example" : "MR KHACHER C LABRECQUE"
+            },
+            "status" : {
+              "type" : "string",
+              "example" : "Inactive"
+            },
+            "relationship" : {
+              "type" : "string",
+              "example" : "Servicing Agent"
+            },
+            "title" : {
+              "type" : "string",
+              "example" : "Pru Rep"
+            },
+            "carrierAppointmentType" : {
+              "type" : "string",
+              "example" : "Agent/Producer"
+            },
+            "phone" : {
+              "type" : "string",
+              "example" : "952 5449533"
+            },
+            "fax" : {
+              "type" : "string"
+            },
+            "office" : {
+              "type" : "string",
+              "example" : "MINX"
+            },
+            "roc" : {
+              "type" : "string",
+              "example" : "NCMO"
+            }
+          }
+        },
+        "Producer" : {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/BaseProducer"
+          }, {
+            "type" : "object",
+            "properties" : {
+              "carrierAppointmemts" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/Producer_carrierAppointmemts"
+                }
+              }
+            }
+          } ]
+        },
+        "Activity" : {
+          "properties" : {
+            "processType" : {
+              "type" : "string",
+              "example" : "Premium Payments",
+              "default" : ""
+            },
+            "processDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2019-07-01"
+            },
+            "processTime" : {
+              "type" : "string",
+              "example" : "2:04:13 AM UTC",
+              "default" : ""
+            },
+            "userCode" : {
+              "type" : "string",
+              "example" : "AB02",
+              "default" : ""
+            },
+            "transactionCode" : {
+              "type" : "string",
+              "example" : "0023",
+              "default" : ""
+            },
+            "transactionDescription" : {
+              "type" : "string",
+              "example" : "COLLECTIONS",
+              "default" : ""
+            },
+            "links" : {
+              "$ref" : "#/components/schemas/Activity_links"
+            }
+          }
+        },
+        "ActivityDetail" : {
+          "properties" : {
+            "processDate" : {
+              "type" : "string",
+              "example" : "2019-07-01",
+              "default" : ""
+            },
+            "userCode" : {
+              "type" : "string",
+              "example" : "0544",
+              "default" : ""
+            }
+          }
+        },
+        "PaymentActivityDetail" : {
+          "properties" : {
+            "effectiveDate" : {
+              "type" : "string",
+              "example" : "2019-07-01",
+              "default" : ""
+            },
+            "paymentAmount" : {
+              "type" : "string",
+              "example" : "106.20",
+              "default" : ""
+            },
+            "lastAuditDate" : {
+              "type" : "string",
+              "example" : "2019-07-01",
+              "default" : ""
+            },
+            "paymentMethod" : {
+              "type" : "string",
+              "example" : "Bank Account",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "SRPChangeActivityDetail" : {
+          "properties" : {
+            "priorDraftDate" : {
+              "type" : "string",
+              "example" : "2016-12-07",
+              "default" : ""
+            },
+            "priorDraftAmountt" : {
+              "type" : "string",
+              "example" : "78.05",
+              "default" : ""
+            },
+            "routingNumber" : {
+              "type" : "string",
+              "example" : "12210002",
+              "default" : ""
+            },
+            "accountNumber" : {
+              "type" : "string",
+              "example" : "0000051",
+              "default" : ""
+            },
+            "additionalOwnerName" : {
+              "type" : "string",
+              "example" : "DSFS",
+              "default" : ""
+            },
+            "draftDate" : {
+              "type" : "string",
+              "example" : "2013-08-18",
+              "default" : ""
+            },
+            "suspendChangeInd" : {
+              "type" : "string",
+              "default" : ""
+            },
+            "resumeChangeInd" : {
+              "type" : "string",
+              "default" : ""
+            },
+            "bankChangeInd" : {
+              "type" : "string",
+              "default" : ""
+            },
+            "accountChangeInd" : {
+              "type" : "string",
+              "default" : ""
+            },
+            "ownerNameChangeInd" : {
+              "type" : "string",
+              "default" : ""
+            },
+            "ownerDraftDateChangeInd" : {
+              "type" : "string",
+              "default" : ""
+            },
+            "ownerFullName" : {
+              "type" : "string",
+              "example" : "MOHAMMED",
+              "default" : ""
+            },
+            "ownerUnparsedAddress" : {
+              "type" : "string",
+              "example" : "12 PAY  STREET",
+              "default" : ""
+            },
+            "signatureType" : {
+              "type" : "string",
+              "example" : "Electronic",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "DeathClaimActivityDetail" : {
+          "properties" : {
+            "paymentDetail" : {
+              "$ref" : "#/components/schemas/DeathClaimActivityDetail_paymentDetail"
+            },
+            "mailingAddress" : {
+              "$ref" : "#/components/schemas/DeathClaimActivityDetail_mailingAddress"
+            },
+            "claims" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/DeathClaimActivityDetail_claims"
+              }
+            },
+            "taxId" : {
+              "type" : "string"
+            },
+            "claimId" : {
+              "type" : "string",
+              "example" : "C-2017-000525"
+            },
+            "paymentId" : {
+              "type" : "string",
+              "example" : "P-2017-001075"
+            },
+            "status" : {
+              "type" : "string",
+              "example" : "Processed"
+            },
+            "paymentSpecification" : {
+              "type" : "string",
+              "example" : "PS-2017-000578"
+            },
+            "accountNumber" : {
+              "type" : "string",
+              "example" : "6470000004"
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "BenefitChangeActivityDetail" : {
+          "properties" : {
+            "effectiveDate" : {
+              "type" : "string",
+              "example" : "2018-02-07"
+            },
+            "additionalPremiumAmount" : {
+              "type" : "string",
+              "example" : "20180412"
+            },
+            "priorFaceAmount" : {
+              "type" : "string",
+              "example" : "888888.00"
+            },
+            "faceAmount" : {
+              "type" : "string",
+              "example" : "200000.0000000"
+            },
+            "faceAmountReductionReason" : {
+              "type" : "string",
+              "example" : "F"
+            },
+            "priorModalPremiumAmount" : {
+              "type" : "string",
+              "example" : "1438.85"
+            },
+            "modalPremiumAmount" : {
+              "type" : "string",
+              "example" : "253.71"
+            },
+            "priorADBAmount" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "adbAmount" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "priorCPRAmount" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "cprAmount" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "priorUndRating" : {
+              "type" : "string"
+            },
+            "priorHlthImprRating" : {
+              "type" : "string"
+            },
+            "priorMilitaryAviRating" : {
+              "type" : "string"
+            },
+            "priorCivlnAviRating" : {
+              "type" : "string"
+            },
+            "priorOccpAvcRating" : {
+              "type" : "string"
+            },
+            "priorWarRiskExcl" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "priorAviRiskExcl" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "priorMiltAviRiskExcl" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "underwrtRating" : {
+              "type" : "string",
+              "example" : "4"
+            },
+            "healthImprRating" : {
+              "type" : "string"
+            },
+            "militaryAviRating" : {
+              "type" : "string"
+            },
+            "civilanAviRating" : {
+              "type" : "string"
+            },
+            "occpAviRating" : {
+              "type" : "string"
+            },
+            "warRiskExcl" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "aviRiskExcl" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "militaryAviRiskExcl" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "chrgForChange" : {
+              "type" : "string"
+            },
+            "riderRemoved" : {
+              "type" : "string"
+            },
+            "beneficiaryRemoved" : {
+              "type" : "string"
+            },
+            "beneficiaryAdded" : {
+              "type" : "string"
+            },
+            "fullName" : {
+              "type" : "string"
+            },
+            "birthDate" : {
+              "type" : "string"
+            },
+            "gender" : {
+              "type" : "string"
+            },
+            "checkAmount" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "checkNumber" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "paidTo" : {
+              "type" : "string"
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "PremiumReversalActivityDetail" : {
+          "properties" : {
+            "reversalAmount" : {
+              "type" : "string",
+              "example" : "31.20",
+              "default" : ""
+            },
+            "paidToDate" : {
+              "type" : "string",
+              "example" : "2019-07-01",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "FullSurrenderActivityDetail" : {
+          "properties" : {
+            "premiumRefundAmount" : {
+              "type" : "string",
+              "example" : "31.20",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "AniversaryUpdateActivityDetail" : {
+          "properties" : {
+            "modalPaymentAmount" : {
+              "type" : "string",
+              "example" : "31.20",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "ModeSRPAddRemoveActivityDetail" : {
+          "properties" : {
+            "futurePremiumPeriod" : {
+              "type" : "string",
+              "example" : "1"
+            },
+            "futurePremiumEffectiveDate" : {
+              "type" : "string",
+              "example" : "2012-01-12"
+            },
+            "chargeForChgAmount" : {
+              "type" : "string",
+              "example" : "0.00"
+            },
+            "priorPaymentModeType" : {
+              "type" : "string",
+              "example" : "Semi Annual"
+            },
+            "priorModalPremiumAmount" : {
+              "type" : "string",
+              "example" : "9468.90"
+            },
+            "additionalOwnerName" : {
+              "type" : "string"
+            },
+            "draftDate" : {
+              "type" : "string",
+              "example" : "2012-01-15"
+            },
+            "ownerFullName" : {
+              "type" : "string",
+              "example" : "INSDONELAST"
+            },
+            "ownerAddress" : {
+              "type" : "string",
+              "example" : "1 DEER PATH"
+            },
+            "signatureType" : {
+              "type" : "string",
+              "example" : "Handwritten"
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "ReinstateActivityDetail" : {
+          "properties" : {
+            "effectiveDate" : {
+              "type" : "string",
+              "example" : "2012-01-15"
+            },
+            "reinstatementType" : {
+              "type" : "string",
+              "example" : "Tele/Short form",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "AssigneeOwnerChangeActivityDetail" : {
+          "properties" : {
+            "changeType" : {
+              "type" : "string",
+              "example" : "Data Added"
+            },
+            "assignmentType" : {
+              "type" : "string",
+              "example" : "Absolute Assignment",
+              "default" : ""
+            },
+            "ownershipType" : {
+              "type" : "string",
+              "example" : "Absolute Assignment",
+              "default" : ""
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/ActivityDetail"
+          } ]
+        },
+        "Programs" : {
+          "type" : "object",
+          "properties" : {
+            "policyNumber" : {
+              "type" : "string",
+              "example" : "FI0010827"
+            },
+            "programs" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/Program_MoneyAround"
+                }, {
+                  "$ref" : "#/components/schemas/Program_MoneyIn"
+                }, {
+                  "$ref" : "#/components/schemas/Program_MoneyOut"
+                } ]
+              }
+            }
+          }
+        },
+        "Program_MoneyAround" : {
+          "type" : "object",
+          "properties" : {
+            "type" : {
+              "type" : "string",
+              "example" : "OFARebal"
+            },
+            "name" : {
+              "type" : "string",
+              "example" : "OARP Rebalance"
+            },
+            "frequency" : {
+              "type" : "string",
+              "example" : "Quarterly,Feb-May-Aug-Nov"
+            },
+            "endDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2999-12-31"
+            },
+            "dayofMonth" : {
+              "type" : "string"
+            },
+            "nextAutoRebalanceDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2015-02-22"
+            },
+            "subaccountInstructions" : {
+              "type" : "string",
+              "example" : "OARP Rebalance"
+            },
+            "investmentAmount" : {
+              "type" : "string"
+            },
+            "investmentPercentage" : {
+              "type" : "string"
+            },
+            "investmentFrequency" : {
+              "type" : "string",
+              "example" : "Quarterly,Feb-May-Aug-Nov"
+            },
+            "nextScheduledDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2015-02-22"
+            },
+            "transferType" : {
+              "type" : "string",
+              "example" : "OARP Rebalance"
+            }
+          }
+        },
+        "Program_MoneyIn" : {
+          "type" : "object",
+          "properties" : {
+            "type" : {
+              "type" : "string",
+              "example" : "OFARebal"
+            },
+            "name" : {
+              "type" : "string",
+              "example" : "OARP Rebalance"
+            },
+            "investmentAmount" : {
+              "type" : "string",
+              "example" : "20"
+            },
+            "investmentFrequency" : {
+              "type" : "string",
+              "example" : "Quarterly,Feb-May-Aug-Nov"
+            },
+            "endDate" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2030-03-28"
+            },
+            "dayofMonth" : {
+              "type" : "string"
+            },
+            "bankAccount" : {
+              "type" : "string"
+            }
+          }
+        },
+        "Program_MoneyOut" : {
+          "type" : "object",
+          "properties" : {
+            "type" : {
+              "type" : "string",
+              "example" : "MRD"
+            },
+            "name" : {
+              "type" : "string",
+              "example" : "SystematicWithdrawal"
+            },
+            "withdrawalAmount" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "withdrawalFrequency" : {
+              "type" : "string",
+              "example" : "Monthly"
+            },
+            "nextScheduledWithdrawal" : {
+              "type" : "string",
+              "format" : "date",
+              "example" : "2020-07-02"
+            },
+            "federalTaxWithholdingAmt" : {
+              "type" : "string"
+            },
+            "stateTaxWithholdingAmt" : {
+              "type" : "string"
+            },
+            "localTaxWithholdingAmt" : {
+              "type" : "string"
+            },
+            "federalTaxWithholdingPct" : {
+              "type" : "string",
+              "example" : "10"
+            },
+            "stateTaxWithholdingPct" : {
+              "type" : "string",
+              "example" : "5"
+            },
+            "localTaxWithholdingPct" : {
+              "type" : "string",
+              "example" : "NA"
+            },
+            "paymentMethod" : {
+              "type" : "string",
+              "example" : "Check"
+            },
+            "payeeName" : {
+              "type" : "string",
+              "example" : "Trent KHGYQSZNPE L RMDIMOtwo\""
+            },
+            "payeeAddress" : {
+              "type" : "object",
+              "example" : "\"Line1\": \"44 Iron Mountain Drive\", \"Line2\": \"\", \"Line3\": \"\", \"Line4\": \"\", \"City\": \"Rockville\", \"State\": \"MD\", \"Zip\": \"20852\", \"CountryCode\": \"United States of America\", \"AddressType\": \"HO\""
+            },
+            "payeeAccount" : {
+              "type" : "object",
+              "example" : "\"AccountType\": \"NA\", \"AccountName\": \"NA\", \"RoutingNumber\": \"NA\""
+            }
+          }
+        },
+        "CustomerServiceTransactionSummary" : {
+          "type" : "object",
+          "properties" : {
+            "transactionPostingDate" : {
+              "type" : "string",
+              "example" : "2016-10-03"
+            },
+            "transactionNumber" : {
+              "type" : "string",
+              "example" : "201610031198930077"
+            },
+            "policyIdentifier" : {
+              "type" : "string",
+              "example" : "E1020209"
+            },
+            "transactionTypeCode" : {
+              "type" : "string",
+              "example" : "C288"
+            },
+            "transactionTypeDescription" : {
+              "type" : "string",
+              "example" : "Miscellaneous Fee"
+            },
+            "transactionStatusCode" : {
+              "type" : "string",
+              "example" : "C"
+            },
+            "transactionStatusDescription" : {
+              "type" : "string",
+              "example" : "Completed"
+            },
+            "transactionEffectiveDate" : {
+              "type" : "string",
+              "example" : "2016-10-03"
+            },
+            "transactionCycleDate" : {
+              "type" : "string",
+              "example" : "2016-10-03"
+            },
+            "financialDetail" : {
+              "type" : "string",
+              "example" : "Y"
+            },
+            "transactionReversalTypeCode" : {
+              "type" : "string",
+              "example" : "NA"
+            },
+            "transactionReversalTypeDescription" : {
+              "type" : "string",
+              "example" : "Not Applicable"
+            },
+            "transactionGrossAmount" : {
+              "type" : "number",
+              "example" : 266.71
+            },
+            "transactionNetAmount" : {
+              "type" : "number",
+              "example" : 266.71
+            }
+          }
+        },
+        "CustomerServiceTransaction" : {
+          "type" : "object",
+          "properties" : {
+            "surrenderChargeAmount" : {
+              "type" : "number",
+              "example" : 19.25
+            },
+            "marketValueAdjustmentAmount" : {
+              "type" : "number",
+              "example" : 20.12
+            },
+            "taxYear" : {
+              "type" : "string",
+              "example" : "2017"
+            },
+            "transactionTaxableAmount" : {
+              "type" : "number",
+              "example" : 15.1
+            },
+            "federalwithholding" : {
+              "type" : "number",
+              "example" : 20.2
+            },
+            "stateWithholding" : {
+              "type" : "number",
+              "example" : 15.1
+            },
+            "localWithholding" : {
+              "type" : "number",
+              "example" : 10.1
+            },
+            "investments" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/CustomerServiceTransaction_investments"
+              }
+            }
+          },
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CustomerServiceTransactionSummary"
+          } ]
+        },
+        "Pagination" : {
+          "required" : [ "endRecord", "startRecord", "totalNoOfRecords" ],
+          "type" : "object",
+          "properties" : {
+            "startRecord" : {
+              "type" : "integer",
+              "example" : 1
+            },
+            "endRecord" : {
+              "type" : "integer",
+              "example" : 25
+            },
+            "totalNoOfRecords" : {
+              "type" : "integer",
+              "example" : 250
+            }
+          }
+        },
+        "CorrespondenceResponse" : {
+          "properties" : {
+            "correspondenceId" : {
+              "type" : "string",
+              "example" : "20190419233151300000"
+            },
+            "documentURI" : {
+              "type" : "string",
+              "example" : "/policies/L1002149/documents/20190521263261300001"
+            },
+            "recipients" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Recipient"
+              }
+            }
+          }
+        },
+        "Correspondence" : {
+          "properties" : {
+            "correspondenceId" : {
+              "type" : "string",
+              "example" : "20190419233151300000"
+            },
+            "document" : {
+              "$ref" : "#/components/schemas/Document"
+            },
+            "recipients" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Recipient"
+              }
+            }
+          }
+        },
+        "Recipient" : {
+          "required" : [ "addressTo", "case", "deliverTo", "deliveryMethod", "firstName", "isInsured", "isOwner", "lastName" ],
+          "properties" : {
+            "case" : {
+              "$ref" : "#/components/schemas/Case"
+            },
+            "deliveryMethod" : {
+              "type" : "string",
+              "example" : "US_MAIL"
+            },
+            "addressTo" : {
+              "type" : "boolean",
+              "example" : true
+            },
+            "deliverTo" : {
+              "type" : "boolean",
+              "example" : true
+            },
+            "isOwner" : {
+              "type" : "boolean",
+              "example" : true
+            },
+            "isInsured" : {
+              "type" : "boolean",
+              "example" : true
+            },
+            "firstName" : {
+              "type" : "string",
+              "example" : "John"
+            },
+            "lastName" : {
+              "type" : "string",
+              "example" : "Smith"
+            },
+            "email" : {
+              "type" : "string",
+              "example" : "test@email.com"
+            },
+            "fax" : {
+              "type" : "string",
+              "example" : "456685894"
+            },
+            "address" : {
+              "$ref" : "#/components/schemas/PostalAddress"
+            }
+          }
+        },
+        "Case" : {
+          "required" : [ "caseId" ],
+          "properties" : {
+            "caseId" : {
+              "type" : "string",
+              "example" : "C32535"
+            },
+            "status" : {
+              "type" : "string",
+              "example" : "PENDING"
+            },
+            "statusReason" : {
+              "type" : "string",
+              "example" : "Pending Printing"
+            }
+          }
+        },
+        "Issuer" : {
+          "required" : [ "name", "title", "userId" ],
+          "properties" : {
+            "userId" : {
+              "type" : "string",
+              "example" : "x234323"
+            },
+            "title" : {
+              "type" : "string",
+              "example" : "CSA"
+            },
+            "name" : {
+              "type" : "string",
+              "example" : "John Smith"
+            }
+          }
+        },
+        "Document" : {
+          "required" : [ "asOfDate", "case", "templateId" ],
+          "properties" : {
+            "documentId" : {
+              "type" : "string",
+              "example" : "20190509102161300000"
+            },
+            "case" : {
+              "$ref" : "#/components/schemas/Case"
+            },
+            "issuer" : {
+              "$ref" : "#/components/schemas/Issuer"
+            },
+            "templateId" : {
+              "type" : "string",
+              "example" : "CVQ"
+            },
+            "asOfDate" : {
+              "type" : "string",
+              "example" : "04/24/2019"
+            },
+            "documentName" : {
+              "type" : "string",
+              "example" : "Custom value Quotes"
+            },
+            "documentValidity" : {
+              "type" : "number",
+              "description" : "duration of the URL validity in minutes",
+              "example" : 5
+            },
+            "documentURI" : {
+              "type" : "string",
+              "example" : "https://cmassso-dev.prudential.com/cmas-content-service/view/documentByURIToken?token=GhUDV2UBDFtf58TSFxvjC0T%2FKkXRb%2F7ngLkJ5kinf6pRUFQ2BLkKWSrKT611T%2Bgn2QF51%2BHjRPbm%0AocZxpSEJ30xlJ2fjOr%2BWGdjFxwoSKknIKkLfAJVjTKfjPa0JZSER"
+            }
+          }
+        },
+        "Error" : {
+          "properties" : {
+            "code" : {
+              "type" : "integer",
+              "example" : 500
+            },
+            "message" : {
+              "type" : "string",
+              "example" : "Policy service error"
+            },
+            "errors" : {
+              "type" : "array",
+              "example" : [ {
+                "code" : "0004",
+                "message" : "Example error message",
+                "severity" : "Information"
+              } ],
+              "items" : {
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "Code" : {
+          "required" : [ "code", "description" ],
+          "type" : "object",
+          "properties" : {
+            "code" : {
+              "type" : "string"
+            },
+            "description" : {
+              "type" : "string"
+            }
+          }
+        },
+        "SearchDocument" : {
+          "required" : [ "policyNumber", "requestor" ],
+          "properties" : {
+            "requestor" : {
+              "$ref" : "#/components/schemas/Requestor"
+            },
+            "policyNumber" : {
+              "type" : "string",
+              "example" : "E0239250"
+            },
+            "responseFormat" : {
+              "$ref" : "#/components/schemas/ResponseFormat"
+            }
+          }
+        },
+        "Requestor" : {
+          "required" : [ "requestorRole", "typeDescription" ],
+          "properties" : {
+            "typeDescription" : {
+              "type" : "string",
+              "example" : "Intermediary Role"
+            },
+            "requestorRole" : {
+              "$ref" : "#/components/schemas/RequestorRole"
+            }
+          }
+        },
+        "RequestorRole" : {
+          "required" : [ "isPlayedBy", "typeDescription" ],
+          "properties" : {
+            "typeDescription" : {
+              "type" : "string",
+              "example" : "Agent"
+            },
+            "isPlayedBy" : {
+              "$ref" : "#/components/schemas/IsPlayedBy"
+            }
+          }
+        },
+        "IsPlayedBy" : {
+          "required" : [ "typeDescription", "userIdentifier" ],
+          "properties" : {
+            "typeDescription" : {
+              "type" : "string",
+              "example" : "Person"
+            },
+            "userIdentifier" : {
+              "type" : "string",
+              "example" : "232121212"
+            }
+          }
+        },
+        "ResponseFormat" : {
+          "required" : [ "noOfRecordsRequested", "sortField", "sortType", "startRecord" ],
+          "properties" : {
+            "startRecord" : {
+              "type" : "integer",
+              "example" : 1
+            },
+            "noOfRecordsRequested" : {
+              "type" : "integer",
+              "example" : 50
+            },
+            "sortType" : {
+              "type" : "string",
+              "example" : "Ascending"
+            },
+            "sortField" : {
+              "type" : "string",
+              "example" : "Communication Date"
+            }
+          }
+        },
+        "SearchDocumentsResponse" : {
+          "properties" : {
+            "policyNumber" : {
+              "type" : "string",
+              "example" : "E0239250"
+            },
+            "documents" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/SearchDocumentResponseEntry"
+              }
+            }
+          }
+        },
+        "SearchDocumentResponseEntry" : {
+          "properties" : {
+            "sortOrder" : {
+              "type" : "string",
+              "example" : "1"
+            },
+            "documentDate" : {
+              "type" : "string",
+              "example" : "2002-06-30"
+            },
+            "documentType" : {
+              "type" : "string",
+              "example" : "Electronic Document"
+            },
+            "documentControlNumber" : {
+              "type" : "string",
+              "example" : "QTRLY-13478161"
+            },
+            "documentSource" : {
+              "type" : "string",
+              "example" : "PRU"
+            },
+            "categories" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/SearchDocumentResponseEntryCatg"
+              }
+            }
+          }
+        },
+        "SearchDocumentResponseEntryCatg" : {
+          "properties" : {
+            "typeDescription" : {
+              "type" : "string",
+              "example" : "DocumentType"
+            },
+            "code" : {
+              "type" : "string",
+              "example" : "QTRLY"
+            },
+            "description" : {
+              "type" : "string",
+              "example" : "Statement"
+            }
+          }
+        },
+        "AcquireDocumentRequest" : {
+          "required" : [ "document", "requestor" ],
+          "properties" : {
+            "requestor" : {
+              "$ref" : "#/components/schemas/Requestor"
+            },
+            "document" : {
+              "$ref" : "#/components/schemas/DocumentToBeAcquired"
+            }
+          }
+        },
+        "DocumentToBeAcquired" : {
+          "required" : [ "documentControlNumber", "documentLocationInformation", "documentSource" ],
+          "properties" : {
+            "documentControlNumber" : {
+              "type" : "string",
+              "example" : "AUTHOWNCHG-2625341401427"
+            },
+            "documentSource" : {
+              "type" : "string",
+              "example" : "NEPS-LTR"
+            },
+            "documentLocationInformation" : {
+              "type" : "string",
+              "example" : "090003ea8009da7a"
+            }
+          }
+        },
+        "AcquireDocumentsResponse" : {
+          "properties" : {
+            "document" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/DocumentResponse"
+              }
+            }
+          }
+        },
+        "DocumentResponse" : {
+          "properties" : {
+            "documentControlNumber" : {
+              "type" : "string",
+              "example" : "AUTHOWNCHG-2625341401427"
+            },
+            "documentSource" : {
+              "type" : "string",
+              "example" : "NEPS-LTR"
+            },
+            "documentBinary" : {
+              "type" : "string",
+              "example" : "JVBERi0xLjUKJeLjz9MKNiAwIG9iago8PCAvQ3JlY"
+            }
+          }
+        },
+        "investmentsResponse" : {
+          "type" : "object",
+          "properties" : {
+            "contractNumber" : {
+              "type" : "string",
+              "example" : "F1839089"
+            },
+            "investments" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/investments"
+              }
+            },
+            "totalFixedInvestmentRecords" : {
+              "type" : "integer",
+              "example" : 1
+            },
+            "totalFixedInvestmentValue" : {
+              "type" : "string",
+              "example" : "5277.78"
+            },
+            "totalVariableInvestmentRecords" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "totalVariableInvestmentValue" : {
+              "type" : "string",
+              "example" : "0"
+            },
+            "totalIndexedInvestmentRecords" : {
+              "type" : "string",
+              "example" : "8"
+            },
+            "totalIndexedInvestmentValue" : {
+              "type" : "string",
+              "example" : "20144.43"
+            },
+            "pagination" : {
+              "$ref" : "#/components/schemas/pagination"
+            }
+          }
+        },
+        "investments" : {
+          "type" : "object",
+          "properties" : {
+            "investmentAccountType" : {
+              "type" : "string",
+              "example" : "Variable"
+            },
+            "fundDescription" : {
+              "type" : "string",
+              "example" : "AST T. Rowe Price Asset Allocation"
+            },
+            "fundIndividualHoldingWeightPercent" : {
+              "type" : "string",
+              "example" : "04.80"
+            },
+            "subaccountUnitCount" : {
+              "type" : "string",
+              "example" : "429.59239"
+            },
+            "fundUnadjustedValueAmount" : {
+              "type" : "string",
+              "example" : "16686.86"
+            },
+            "investmentAssetClass" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/investments_investmentAssetClass"
+              }
+            }
+          }
+        },
+        "pagination" : {
+          "type" : "object",
+          "properties" : {
+            "startRecord" : {
+              "type" : "string",
+              "example" : "1"
+            },
+            "endRecord" : {
+              "type" : "string",
+              "example" : "9"
+            },
+            "totalNoOfRecords" : {
+              "type" : "string",
+              "example" : "9"
+            }
+          }
+        },
+        "newBusinessSummaryResponse" : {
+          "type" : "object",
+          "properties" : {
+            "contractNumber" : {
+              "type" : "string",
+              "example" : "E0162794"
+            },
+            "totalExpectedPremiumAmount" : {
+              "type" : "string",
+              "example" : "25698"
+            },
+            "transferOfAssetsExpectedPremiumAmount" : {
+              "type" : "string",
+              "example" : "125000"
+            },
+            "newBusinessCase" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/newBusinessCase"
+              }
+            },
+            "investmentDefaultAllocation" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/investmentDefaultAllocation"
+              }
+            },
+            "investmentsAllocation" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/investmentAllocation"
+              }
+            },
+            "totalFixedInvestmentRecordsNumber" : {
+              "type" : "number",
+              "example" : 5
+            },
+            "totalVariableSubAccountRecordsNumber" : {
+              "type" : "number",
+              "example" : 10
+            },
+            "totalIndexedInvestmentRecordsNumber" : {
+              "type" : "number",
+              "example" : 15
+            }
+          }
+        },
+        "newBusinessCase" : {
+          "type" : "object",
+          "properties" : {
+            "caseIdentifier" : {
+              "type" : "string",
+              "example" : "19225QA04431530"
+            },
+            "worktypeCode" : {
+              "type" : "string",
+              "example" : "1328"
+            },
+            "worktypeDescription" : {
+              "type" : "string",
+              "example" : "New Business TOA Clone"
+            },
+            "itemStatusCode" : {
+              "type" : "string",
+              "example" : "PENDING"
+            },
+            "itemStatusDescription" : {
+              "type" : "string",
+              "example" : "Pending"
+            },
+            "caseLastUpdateDate" : {
+              "type" : "string",
+              "example" : "2019-08-13 01:59:47.0"
+            },
+            "caseMilestoneStatusMessageText" : {
+              "type" : "string",
+              "example" : "Funds have been requested for this contract."
+            },
+            "caseMilestones" : {
+              "type" : "array",
+              "maxItems": 20,
+              "items" : {
+                "$ref" : "#/components/schemas/caseMilestone"
+              }
+            },
+            "caseNotes" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/caseNote"
+              }
+            },
+            "totalCaseNotesCount" : {
+              "type" : "string",
+              "example" : "10"
+            },
+            "transferOfAsset" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/transferOfAsset"
+              } ]
+            }
+          }
+        },
+        "caseMilestone" : {
+          "type" : "object",
+          "properties" : {
+            "caseMilestoneCode" : {
+              "type" : "string",
+              "example" : "AWAITFND"
+            },
+            "caseMilestoneDescription" : {
+              "type" : "string",
+              "example" : "Awaiting Funds"
+            },
+            "caseMilestoneStatusCode" : {
+              "type" : "string",
+              "example" : "INPROG"
+            },
+            "caseMilestoneStatusDescription" : {
+              "type" : "string",
+              "example" : "In Progress"
+            }
+          }
+        },
+        "caseNote" : {
+          "type" : "object",
+          "properties" : {
+            "caseNoteIdentifier" : {
+              "type" : "string",
+              "example" : "19227QA05673468"
+            },
+            "caseNoteTimestamp" : {
+              "type" : "string",
+              "example" : "2019-08-15 12:19:46.573"
+            },
+            "caseNoteText" : {
+              "type" : "string",
+              "example" : "case note"
+            },
+            "caseNoteAuthorFullName" : {
+              "type" : "string",
+              "example" : "Todd Scott"
+            },
+            "caseNoteExternalDisplayIndicator" : {
+              "type" : "string",
+              "example" : "Y"
+            },
+            "financialAdvisorActionRequiredIndicator" : {
+              "type" : "string",
+              "example" : "N"
+            },
+            "caseNoteExternalAuthorFullName" : {
+              "type" : "string",
+              "example" : "Case Manager"
+            }
+          }
+        },
+        "transferOfAsset" : {
+          "type" : "object",
+          "properties" : {
+            "transferOfAssetsRequestDate" : {
+              "type" : "string",
+              "example" : "2019-08-13 01:59:39.0"
+            },
+            "releasingCompanyName" : {
+              "type" : "string",
+              "example" : "Aig Valic"
+            },
+            "releasingCompanyFundsRequestDate" : {
+              "type" : "string",
+              "example" : "2019-08-20 00:00:00.0"
+            },
+            "monetarySourceTypeCode" : {
+              "type" : "string",
+              "example" : "1035"
+            },
+            "transferOfAssetsExpectedPremiumAmount" : {
+              "type" : "string",
+              "example" : "250000"
+            },
+            "replacedContractNumber" : {
+              "type" : "string",
+              "example" : "qwertgg"
+            },
+            "transferOfAssetsStatusCode" : {
+              "type" : "string",
+              "example" : "1"
+            },
+            "transferOfAssetsStatusDescription" : {
+              "type" : "string",
+              "example" : "Pending"
+            }
+          }
+        },
+        "investmentDefaultAllocation" : {
+          "type" : "object",
+          "properties" : {
+            "investmentAllocationRequestTypeCode" : {
+              "type" : "string",
+              "example" : "I"
+            },
+            "investmentAllocationRequestTypeDescription" : {
+              "type" : "string",
+              "example" : "INITIAL"
+            },
+            "clientRequestedInvestmentAllocationPercent" : {
+              "type" : "string",
+              "example" : "70.00"
+            }
+          }
+        },
+        "investmentAllocation" : {
+          "type" : "object",
+          "properties" : {
+            "investmentType" : {
+              "type" : "string",
+              "example" : "Variable"
+            },
+            "investmentAssetClassCode" : {
+              "type" : "string",
+              "example" : "ASSETALL"
+            },
+            "investmentAssetClassDescription" : {
+              "type" : "string",
+              "example" : "Asset Allocation"
+            },
+            "fundCode" : {
+              "type" : "string",
+              "example" : "243"
+            },
+            "fundDescription" : {
+              "type" : "string",
+              "example" : "AST Preservation Asset Allocation"
+            },
+            "allocationPercentage" : {
+              "type" : "string",
+              "example" : "20"
+            },
+            "investmentAllocationRequestTypeCode" : {
+              "type" : "string",
+              "example" : "I"
+            },
+            "investmentAllocationRequestTypeDescription" : {
+              "type" : "string",
+              "example" : "INITIAL"
+            }
+          }
+        },
+        "inline_response_200" : {
+          "required" : [ "pagination", "transactions" ],
+          "type" : "object",
+          "properties" : {
+            "transactions" : {
+              "properties" : {
+                "links" : {
+                  "required" : [ "customerServiceTransaction" ],
+                  "type" : "object",
+                  "properties" : {
+                    "customerServiceTransaction" : {
+                      "required" : [ "href" ],
+                      "type" : "object",
+                      "properties" : {
+                        "href" : {
+                          "type" : "string",
+                          "example" : "/policies/E1020209/customerServiceTransactions/201610031198930077?lob=ANNUITY",
+                          "default" : ""
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CustomerServiceTransactionSummary"
+              } ]
+            },
+            "pagination" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/Pagination"
+              } ]
+            }
+          }
+        },
+        "Policy_modalPremiumInfo" : {
+          "required" : [ "paymentMode", "premiumAmount" ],
+          "type" : "object",
+          "properties" : {
+            "premiumAmount" : {
+              "type" : "number",
+              "example" : 501.5
+            },
+            "paymentMode" : {
+              "type" : "string",
+              "example" : "Annual",
+              "default" : ""
+            }
+          }
+        },
+        "Policy_links" : {
+          "required" : [ "activities", "agents", "benefits", "customerServiceTransactions", "roles" ],
+          "type" : "object",
+          "properties" : {
+            "activities" : {
+              "required" : [ "href" ],
+              "properties" : {
+                "href" : {
+                  "type" : "string",
+                  "example" : "/policies/L0960019/activities?CarrierAdminSystemType=50&CarrierCode=02"
+                }
+              }
+            },
+            "customerServiceTransactions" : {
+              "required" : [ "href" ],
+              "properties" : {
+                "href" : {
+                  "type" : "string",
+                  "example" : "/policies/E1022132/customerServiceTransactions?lob=ANNUITY"
+                }
+              }
+            },
+            "benefits" : {
+              "required" : [ "href" ],
+              "properties" : {
+                "href" : {
+                  "type" : "string",
+                  "example" : "/policies/E1022132/benefits?lob=ANNUITY"
+                }
+              }
+            },
+            "agents" : {
+              "required" : [ "href" ],
+              "properties" : {
+                "href" : {
+                  "type" : "string",
+                  "example" : "/policies/L0960019/producers"
+                }
+              }
+            },
+            "roles" : {
+              "required" : [ "href" ],
+              "properties" : {
+                "href" : {
+                  "type" : "string",
+                  "example" : "/policies/E1022132/roles?lob=ANNUITY"
+                }
+              }
+            }
+          }
+        },
+        "Benefits_categories" : {
+          "type" : "object",
+          "properties" : {
+            "code" : {
+              "type" : "string",
+              "description" : "Unique identifier code",
+              "example" : "DB"
+            },
+            "name" : {
+              "type" : "string",
+              "description" : "Name of the category.",
+              "example" : "Death Benefit"
+            },
+            "description" : {
+              "type" : "string",
+              "description" : "Description of category.",
+              "example" : "BenefitCategory"
+            }
+          },
+          "description" : "Benefit categories LB, DB, HL",
+          "example" : "[{\"code\":\"DV\",\"description\":\"BenefitCategory\",\"name\":\"Death Benefit\"},{\"code\":\"LB\",\"name\":\"Living Benefit\",\"description\":\"BenefitCategory\"}]"
+        },
+        "Benefits_components" : {
+          "type" : "object",
+          "properties" : {
+            "code" : {
+              "type" : "string",
+              "description" : "The benefit label code such as ROLLUPRATE, GMDB",
+              "example" : "ESTPROVAL"
+            },
+            "description" : {
+              "type" : "string",
+              "description" : "The type of code",
+              "example" : "BenefitCode"
+            },
+            "dataType" : {
+              "type" : "string",
+              "description" : "The type of the value e.g.AMOUNT, DATE, PCT, COUNT",
+              "example" : "AMOUNT"
+            },
+            "value" : {
+              "type" : "string",
+              "example" : "0.0"
+            }
+          }
+        },
+        "Producer_carrierAppointmemts" : {
+          "type" : "object",
+          "properties" : {
+            "contract" : {
+              "type" : "string",
+              "example" : "D9973"
+            },
+            "status" : {
+              "type" : "string",
+              "example" : "Inactive"
+            },
+            "carrierAppointmentType" : {
+              "type" : "string",
+              "example" : "Agent/Producer"
+            },
+            "expiryDate" : {
+              "type" : "string",
+              "example" : "2012-01-17"
+            }
+          }
+        },
+        "Activity_links_activities" : {
+          "required" : [ "href" ],
+          "type" : "object",
+          "properties" : {
+            "href" : {
+              "type" : "string",
+              "example" : "/policies/L6822980/activities/23?CarrierAdminSystemType=50&CarrierCode=02&ActivityDate=20190701",
+              "default" : ""
+            }
+          }
+        },
+        "Activity_links" : {
+          "required" : [ "activities" ],
+          "type" : "object",
+          "properties" : {
+            "activities" : {
+              "$ref" : "#/components/schemas/Activity_links_activities"
+            }
+          }
+        },
+        "DeathClaimActivityDetail_paymentDetail_payeeName" : {
+          "required" : [ "FirstName", "LastName" ],
+          "type" : "object",
+          "properties" : {
+            "FirstName" : {
+              "type" : "string",
+              "example" : "Peter"
+            },
+            "LastName" : {
+              "type" : "string",
+              "example" : "E Williams"
+            }
+          }
+        },
+        "DeathClaimActivityDetail_paymentDetail" : {
+          "type" : "object",
+          "properties" : {
+            "paymentMethod" : {
+              "type" : "string",
+              "example" : "Check"
+            },
+            "checkAmount" : {
+              "type" : "number",
+              "example" : 200611.77
+            },
+            "checkDate" : {
+              "type" : "string"
+            },
+            "payeeName" : {
+              "$ref" : "#/components/schemas/DeathClaimActivityDetail_paymentDetail_payeeName"
+            },
+            "relationshipToInsured" : {
+              "type" : "string",
+              "example" : "Brother"
+            }
+          }
+        },
+        "DeathClaimActivityDetail_mailingAddress" : {
+          "required" : [ "city", "country", "postalCode", "state", "street" ],
+          "type" : "object",
+          "properties" : {
+            "street" : {
+              "type" : "string",
+              "example" : "123 main"
+            },
+            "city" : {
+              "type" : "string",
+              "example" : "city"
+            },
+            "state" : {
+              "type" : "string",
+              "example" : "Florida"
+            },
+            "postalCode" : {
+              "type" : "string",
+              "example" : "12345"
+            },
+            "country" : {
+              "type" : "string",
+              "example" : "United States"
+            }
+          }
+        },
+        "DeathClaimActivityDetail_claims" : {
+          "required" : [ "claimType", "grossBenefitAmount" ],
+          "type" : "object",
+          "properties" : {
+            "claimType" : {
+              "type" : "string",
+              "example" : "Delayed Claim Interest (Pre-Tax)"
+            },
+            "grossBenefitAmount" : {
+              "type" : "number",
+              "example" : 352.46
+            }
+          }
+        },
+        "CustomerServiceTransaction_investments" : {
+          "type" : "object",
+          "properties" : {
+            "transactionFromToCode" : {
+              "type" : "string",
+              "example" : "FROM"
+            },
+            "investmentCode" : {
+              "type" : "string",
+              "example" : "305"
+            },
+            "investmentName" : {
+              "type" : "string",
+              "example" : "AST Investment Grade Bond"
+            },
+            "subaccountUnitCount" : {
+              "type" : "integer",
+              "example" : 18
+            },
+            "unitPrice" : {
+              "type" : "number",
+              "example" : 5
+            },
+            "fundAmount" : {
+              "type" : "number",
+              "example" : 241.8
+            }
+          }
+        },
+        "investments_investmentAssetClass" : {
+          "type" : "object",
+          "properties" : {
+            "typeDescription" : {
+              "type" : "string",
+              "example" : "InvestmentType"
+            },
+            "code" : {
+              "type" : "string",
+              "example" : "V"
+            },
+            "description" : {
+              "type" : "string",
+              "example" : "Variable"
+            }
+          }
+        }
+      },
+      "responses" : {
+        "404ResourceNotFoundError" : {
+          "description" : "Resource Not Found Error",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        "500ServerError" : {
+          "description" : "Internal Server Error",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        "503ServiceUnavailable" : {
+          "description" : "Service Unavailable Error",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      },
+      "parameters" : {
+        "PolicyNumberParam" : {
+          "name" : "policyNumber",
+          "in" : "path",
+          "description" : "Policy Number of the Life Policy to return Or Contract Number of the Annuity Contract to return.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "CorrespondenceIdParam" : {
+          "name" : "correspondenceId",
+          "in" : "path",
+          "description" : "Correspondence Id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "DocumentIdParam" : {
+          "name" : "documentId",
+          "in" : "path",
+          "description" : "Published Document Id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "CaseIdParam" : {
+          "name" : "caseId",
+          "in" : "path",
+          "description" : "Case Id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "UserIdParam" : {
+          "name" : "userId",
+          "in" : "query",
+          "description" : "User Id for example CSA",
+          "required" : true,
+          "style" : "form",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "FormatParam" : {
+          "name" : "format",
+          "in" : "query",
+          "description" : "Format could be read ro write. Defaults to read",
+          "required" : false,
+          "style" : "form",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "CarrierAdminSystemTypeParam" : {
+          "name" : "CarrierAdminSystemType",
+          "in" : "query",
+          "description" : "Admin System type code",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "CarrierCodeParam" : {
+          "name" : "CarrierCode",
+          "in" : "query",
+          "description" : "Company code of the policy issuing company",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "ProducerIdParam" : {
+          "name" : "producerId",
+          "in" : "path",
+          "description" : "Id of the producer to return",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "RelationRoleTypeParam" : {
+          "name" : "relationRoleType",
+          "in" : "query",
+          "description" : "Relationship Role of the Producer",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "TransactionIdentifierParam" : {
+          "name" : "transactionIdentifier",
+          "in" : "path",
+          "description" : "Internal identifier used to uniquely identify transactions.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "LOBParam" : {
+          "name" : "lob",
+          "in" : "query",
+          "description" : "Identifies the line of business e.g.ANNUITY",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "PaginationLimitParam" : {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limit or page size for Pagination",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "PaginationOffsetParam" : {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset or start record for Pagination",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "ActivityTypeParam" : {
+          "name" : "activityType",
+          "in" : "path",
+          "description" : "Type of the Activity",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "ActivityDateParam" : {
+          "name" : "ActivityDate",
+          "in" : "query",
+          "description" : "Date for which the activity detils needs to be fetched",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "PruRequestIdParam" : {
+          "name" : "X-PruRequestID",
+          "in" : "header",
+          "description" : "Unique request id for each service call. Set by client",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "PruSourceIdentityParam" : {
+          "name" : "X-PruSourceIdentity",
+          "in" : "header",
+          "description" : "Legacy SSO ID that will be sent, if present. Set by client",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "PruAuthJwtParam" : {
+          "name" : "X-PruAuthJWT",
+          "in" : "header",
+          "description" : "Token generated based on SSO ID. Set by client",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "InvestmentTypeParam" : {
+          "name" : "investmentType",
+          "in" : "path",
+          "description" : "type of investments for filtering",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "AppIdParam" : {
+          "name" : "appId",
+          "in" : "header",
+          "description" : "The App Id of the Application calling the documents search API",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        },
+        "CategoriesParam" : {
+          "name" : "categories[in]",
+          "in" : "query",
+          "description" : "Comma separated category codes tha filter benefits [in] query. If not provided, all benefits retrieved.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }
+      },
+      "requestBodies" : {
+        "Correspondence" : {
+          "description" : "Correspondence invoked that will generate document and send to client",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Correspondence"
+              }
+            }
+          },
+          "required" : true
+        }
+      },
+      "securitySchemes" : {
+        "bearerAuth" : {
+          "type" : "http",
+          "scheme" : "bearer",
+          "bearerFormat" : "JWT"
+        },
+        "basicAuth" : {
+          "type" : "http",
+          "scheme" : "basic"
+        }
+      }
+    }
+  }

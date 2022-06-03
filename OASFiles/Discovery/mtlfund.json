@@ -1,0 +1,2134 @@
+{
+  "swagger" : "2.0",
+  "host": "sandbox.fmr.com",
+  "info" : {
+    "description" : "Mutual Fund APIs on LWC framework",
+    "version" : "1.1.1",
+    "title" : "Mutual Fund APIs",
+    "contact" : {
+      "name" : "DP Platform Engineering",
+      "email" : "dpplatformengineering@fmr.com"
+    }
+  },
+  "tags" : [ {
+    "name" : "v1"
+  } ],
+  "schemes" : [ "https" ],
+  "x-42c-no-authentication": true,
+  "paths" : {
+    "/ftgw/dpdirect/research/mutualfunddetails/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund details for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundDetails",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid"
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/details"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfunddistributions/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund distributions for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundDistributions",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "AP011663",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/distributions"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundexpensesfees/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual expenses and fees for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundExpensesFees",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "AP011663",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36,
+          "x-example" : "testfsreqid"
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/expensesfees"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundficharacteristics/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund FI characteristics for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundFICharacteristics",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/fiCharacteristics"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundinformation/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund information for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundInformation",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/fundInformation"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundmorningstar/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund morningstar for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundMorningStar",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/morningStar"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundperformance/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund performance for the requested fund id",
+        "description" : "",
+        "operationId" : "mutualFundPerformance",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/performance"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundstylemap/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual fund stylemap for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualStyleMap",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/styleMap"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ftgw/dpdirect/research/mutualfundtopholdings/v1" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Mutual top holdings for the requested fund id",
+        "description" : "",
+        "operationId" : "getMutualFundTopHoldings",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "AppId",
+          "in" : "header",
+          "description" : "[ITAM ID], Used to authenticate the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "pattern": "^[a-Z0-9]+$",
+          "minLength": 5,
+          "maxLength": 20,
+          "x-example" : "AP011663"
+        }, {
+          "name" : "AppName",
+          "in" : "header",
+          "description" : "Used to identify the application calling the service",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Android",
+          "pattern": "^[a-Z\\s]+$",
+          "minLength": 5,
+          "maxLength": 20
+        }, {
+          "name" : "fsreqid",
+          "in" : "header",
+          "description" : "Unique identifier supplied by consumer to enable correlation of logs on consumer and service tier",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "testfsreqid",
+          "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+          "minLength": 36,
+          "maxLength": 36
+        }, {
+          "name" : "fvFundID",
+          "in" : "query",
+          "description" : "fundId for the Mutual Fund being requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "316184100",
+          "pattern": "^[0-9]+$",
+          "minLength": 9,
+          "maxLength": 9
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/topHoldings"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/AppError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Detail" : {
+      "type" : "object",
+      "properties" : {
+        "detailsDataSets" : {
+          "$ref" : "#/definitions/DetailsDataSets"
+        }
+      }
+    },
+    "DetailsData" : {
+      "type" : "object",
+      "properties" : {
+        "shareClassInceptionDate" : {
+          "type" : "string"
+        },
+        "morningstarCategory" : {
+          "type" : "string"
+        },
+        "fundInceptionDate" : {
+          "type" : "string"
+        },
+        "minInvestmentRetail" : {
+          "type" : "number"
+        },
+        "minInitRetireInvestAmtIRA" : {
+          "type" : "number"
+        },
+        "turnover" : {
+          "type" : "number"
+        },
+        "turnoverDate" : {
+          "type" : "string"
+        },
+        "netAssetsDetails" : {
+          "$ref" : "#/definitions/NetAssetsDetails"
+        },
+        "twelMonthLowHighDetails" : {
+          "$ref" : "#/definitions/TwelMonthLowHighDetails"
+        }
+      }
+    },
+    "DetailsDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "detailsData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/DetailsData"
+          }
+        }
+      }
+    },
+    "DetailsList" : {
+      "type" : "object",
+      "properties" : {
+        "detail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/Detail"
+          }
+        }
+      }
+    },
+    "MutualFundSecDetail" : {
+      "type" : "object",
+      "required" : [ "requestedFundID", "sectionCode", "sectionName" ],
+      "properties" : {
+        "sectionName" : {
+          "type" : "string"
+        },
+        "sectionCode" : {
+          "type" : "string"
+        },
+        "requestedFundID" : {
+          "type" : "string"
+        },
+        "sectionSuppressionInd" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "NetAssetsDetail" : {
+      "type" : "object",
+      "properties" : {
+        "netAssetAOD" : {
+          "type" : "string"
+        },
+        "portfolioNetAssetAmt" : {
+          "type" : "number"
+        }
+      }
+    },
+    "NetAssetsDetails" : {
+      "type" : "object",
+      "properties" : {
+        "netAssetsDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/NetAssetsDetail"
+          }
+        }
+      }
+    },
+    "SysMsg" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "detail" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "source" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "SysMsgs" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsg" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/SysMsg"
+          }
+        }
+      }
+    },
+    "TwelMonthLowHighDetail" : {
+      "type" : "object",
+      "properties" : {
+        "twelMonthLowHighAOD" : {
+          "type" : "string"
+        },
+        "twelMonthLow" : {
+          "type" : "number"
+        },
+        "twelMonthHigh" : {
+          "type" : "number"
+        }
+      }
+    },
+    "TwelMonthLowHighDetails" : {
+      "type" : "object",
+      "properties" : {
+        "twelMonthLowHighDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/TwelMonthLowHighDetail"
+          }
+        }
+      }
+    },
+    "details" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "detailsList" : {
+          "$ref" : "#/definitions/DetailsList"
+        }
+      }
+    },
+    "AppError" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        }
+      }
+    },
+    "CapitalGainsData" : {
+      "type" : "object",
+      "properties" : {
+        "distributionSchedule" : {
+          "type" : "string"
+        },
+        "capitalGainsHistoryDetails" : {
+          "$ref" : "#/definitions/CapitalGainsHistoryDetails"
+        }
+      }
+    },
+    "CapitalGainsDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "capitalGainsData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/CapitalGainsData"
+          }
+        }
+      }
+    },
+    "CapitalGainsDetail" : {
+      "type" : "object",
+      "properties" : {
+        "capitalGainsDataSets" : {
+          "$ref" : "#/definitions/CapitalGainsDataSets"
+        }
+      }
+    },
+    "CapitalGainsDetails" : {
+      "type" : "object",
+      "properties" : {
+        "capitalGainsDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/CapitalGainsDetail"
+          }
+        }
+      }
+    },
+    "CapitalGainsHistory" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "capitalGainsDetails" : {
+          "$ref" : "#/definitions/CapitalGainsDetails"
+        }
+      }
+    },
+    "CapitalGainsHistoryDetail" : {
+      "type" : "object",
+      "properties" : {
+        "distributionDate" : {
+          "type" : "string"
+        },
+        "perShareAmount" : {
+          "type" : "number"
+        },
+        "reinvestmentPrice" : {
+          "type" : "number"
+        }
+      }
+    },
+    "CapitalGainsHistoryDetails" : {
+      "type" : "object",
+      "properties" : {
+        "capitalGainsHistoryDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/CapitalGainsHistoryDetail"
+          }
+        }
+      }
+    },
+    "DistSections" : {
+      "type" : "object",
+      "properties" : {
+        "capitalGainsHistory" : {
+          "$ref" : "#/definitions/CapitalGainsHistory"
+        },
+        "dividendsHistory" : {
+          "$ref" : "#/definitions/DividendsHistory"
+        }
+      }
+    },
+    "DividendsData" : {
+      "type" : "object",
+      "properties" : {
+        "distributionSchedule" : {
+          "type" : "string"
+        },
+        "dividendsHistoryDetails" : {
+          "$ref" : "#/definitions/DividendsHistoryDetails"
+        }
+      }
+    },
+    "DividendsDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "dividendsData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/DividendsData"
+          }
+        }
+      }
+    },
+    "DividendsDetail" : {
+      "type" : "object",
+      "properties" : {
+        "dividendsDataSets" : {
+          "$ref" : "#/definitions/DividendsDataSets"
+        }
+      }
+    },
+    "DividendsDetails" : {
+      "type" : "object",
+      "properties" : {
+        "dividendsDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/DividendsDetail"
+          }
+        }
+      }
+    },
+    "DividendsHistory" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "dividendsDetails" : {
+          "$ref" : "#/definitions/DividendsDetails"
+        }
+      }
+    },
+    "DividendsHistoryDetail" : {
+      "type" : "object",
+      "properties" : {
+        "distributionDate" : {
+          "type" : "string"
+        },
+        "perShareAmount" : {
+          "type" : "number"
+        },
+        "reinvestmentPrice" : {
+          "type" : "number"
+        }
+      }
+    },
+    "DividendsHistoryDetails" : {
+      "type" : "object",
+      "properties" : {
+        "dividendsHistoryDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/DividendsHistoryDetail"
+          }
+        }
+      }
+    },
+    "distributions" : {
+      "type" : "object",
+      "properties" : {
+        "distSections" : {
+          "$ref" : "#/definitions/DistSections"
+        }
+      }
+    },
+    "ExpensesAndFeesData" : {
+      "type" : "object",
+      "properties" : {
+        "expenseRatioGross" : {
+          "type" : "number"
+        },
+        "expenseRatioNet" : {
+          "type" : "number"
+        },
+        "transactionFeeOnline" : {
+          "type" : "number"
+        },
+        "load" : {
+          "type" : "number"
+        },
+        "loadWaivedAtFidelity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ExpensesAndFeesDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "expensesAndFeesData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/ExpensesAndFeesData"
+          }
+        }
+      }
+    },
+    "ExpensesAndFeesDetail" : {
+      "type" : "object",
+      "properties" : {
+        "expensesAndFeesDataSets" : {
+          "$ref" : "#/definitions/ExpensesAndFeesDataSets"
+        }
+      }
+    },
+    "ExpensesAndFeesDetails" : {
+      "type" : "object",
+      "properties" : {
+        "expensesAndFeesDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/ExpensesAndFeesDetail"
+          }
+        }
+      }
+    },
+    "expensesfees" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "expensesAndFeesDetails" : {
+          "$ref" : "#/definitions/ExpensesAndFeesDetails"
+        }
+      }
+    },
+    "FiCharacteristicsData" : {
+      "type" : "object",
+      "properties" : {
+        "yieldPctDetails" : {
+          "$ref" : "#/definitions/YieldPctDetails"
+        },
+        "taxEquivalentYldDetails" : {
+          "$ref" : "#/definitions/TaxEquivalentYldDetails"
+        },
+        "weightedAverageMaturity" : {
+          "type" : "number"
+        },
+        "weightedAvgMaturityInd" : {
+          "type" : "string"
+        },
+        "weightedAvgMaturityDt" : {
+          "type" : "string"
+        },
+        "weightedAverageLife" : {
+          "type" : "number"
+        },
+        "weightedAverageLifeInd" : {
+          "type" : "string"
+        },
+        "weightedAvgLifeDt" : {
+          "type" : "string"
+        },
+        "optionAdjDurationDt" : {
+          "type" : "string"
+        },
+        "optionAdjDuration" : {
+          "type" : "number"
+        },
+        "optionAdjDurationInd" : {
+          "type" : "string"
+        }
+      }
+    },
+    "FiCharacteristicsDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "fiCharacteristicsData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FiCharacteristicsData"
+          }
+        }
+      }
+    },
+    "FiCharacteristicsDetail" : {
+      "type" : "object",
+      "properties" : {
+        "fiCharacteristicsDataSets" : {
+          "$ref" : "#/definitions/FiCharacteristicsDataSets"
+        }
+      }
+    },
+    "FiCharacteristicsDetails" : {
+      "type" : "object",
+      "properties" : {
+        "fiCharacteristicsDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FiCharacteristicsDetail"
+          }
+        }
+      }
+    },
+    "TaxEquivalentYldDetail" : {
+      "type" : "object",
+      "properties" : {
+        "taxEquivalentYield" : {
+          "type" : "number"
+        },
+        "taxEquivalentYieldAsOfDate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TaxEquivalentYldDetails" : {
+      "type" : "object",
+      "properties" : {
+        "taxEquivalentYldDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/TaxEquivalentYldDetail"
+          }
+        }
+      }
+    },
+    "YieldPctDetail" : {
+      "type" : "object",
+      "properties" : {
+        "sevenDayYield" : {
+          "type" : "number"
+        },
+        "thirtyDayYield" : {
+          "type" : "number"
+        },
+        "asOfDate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "YieldPctDetails" : {
+      "type" : "object",
+      "properties" : {
+        "yieldPctDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/YieldPctDetail"
+          }
+        }
+      }
+    },
+    "fiCharacteristics" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "fiCharacteristicsDetails" : {
+          "$ref" : "#/definitions/FiCharacteristicsDetails"
+        }
+      }
+    },
+    "FundInformationData" : {
+      "type" : "object",
+      "properties" : {
+        "noTransactionFeeIndicator" : {
+          "type" : "boolean"
+        },
+        "statusDescription" : {
+          "type" : "string"
+        },
+        "publicationName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "FundInformationDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "fundInformationData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FundInformationData"
+          }
+        }
+      }
+    },
+    "FundInformationDetail" : {
+      "type" : "object",
+      "properties" : {
+        "fundInformationDataSets" : {
+          "$ref" : "#/definitions/FundInformationDataSets"
+        }
+      }
+    },
+    "FundInformationDetails" : {
+      "type" : "object",
+      "properties" : {
+        "fundInformationDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FundInformationDetail"
+          }
+        }
+      }
+    },
+    "fundInformation" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "fundInformationDetails" : {
+          "$ref" : "#/definitions/FundInformationDetails"
+        }
+      }
+    },
+    "MStarReturnsSnapshot" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "mStarReturnsSnapshotDetails" : {
+          "$ref" : "#/definitions/mStarReturnsSnapshotDetails"
+        }
+      }
+    },
+    "MStarRiskSnapshot" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "mStarRiskSnapshotDetails" : {
+          "$ref" : "#/definitions/mStarRiskSnapshotDetails"
+        }
+      }
+    },
+    "MorningStarDetails" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRatings" : {
+          "$ref" : "#/definitions/mStarRatings"
+        },
+        "mStarRiskSnapshot" : {
+          "$ref" : "#/definitions/MStarRiskSnapshot"
+        },
+        "mStarReturnsSnapshot" : {
+          "$ref" : "#/definitions/MStarReturnsSnapshot"
+        },
+        "mStarFeeSnapshot" : {
+          "$ref" : "#/definitions/mStarFeeSnapshot"
+        }
+      }
+    },
+    "mStarFeeSnapshot" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "mStarFeesSnapshotDetails" : {
+          "$ref" : "#/definitions/mStarFeesSnapshotDetails"
+        }
+      }
+    },
+    "mStarFeesSnapshotData" : {
+      "type" : "object",
+      "properties" : {
+        "categoryFeeAsOfDate" : {
+          "type" : "string"
+        },
+        "mStarCategoryName" : {
+          "type" : "string"
+        },
+        "fundCategoryFee" : {
+          "type" : "number"
+        }
+      }
+    },
+    "mStarFeesSnapshotDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "mStarFeesSnapshotData" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarFeesSnapshotData"
+          }
+        }
+      }
+    },
+    "mStarFeesSnapshotDetail" : {
+      "type" : "object",
+      "properties" : {
+        "mStarFeesSnapshotDataSets" : {
+          "$ref" : "#/definitions/mStarFeesSnapshotDataSets"
+        }
+      }
+    },
+    "mStarFeesSnapshotDetails" : {
+      "type" : "object",
+      "properties" : {
+        "mStarFeesSnapshotDetail" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarFeesSnapshotDetail"
+          }
+        }
+      }
+    },
+    "mStarRatings" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "mStarRatingsDetails" : {
+          "$ref" : "#/definitions/mStarRatingsDetails"
+        }
+      }
+    },
+    "mStarRatingsData" : {
+      "type" : "object",
+      "properties" : {
+        "asOfDate" : {
+          "type" : "string"
+        },
+        "mStarOverallRating" : {
+          "type" : "number"
+        },
+        "mStarCategoryName" : {
+          "type" : "string"
+        },
+        "mStar3YrRating" : {
+          "type" : "number"
+        },
+        "mStar5YrRating" : {
+          "type" : "number"
+        },
+        "mStar10YrRating" : {
+          "type" : "number"
+        },
+        "mStar3YrTotalCount" : {
+          "type" : "number"
+        },
+        "mStar5YrTotalCount" : {
+          "type" : "number"
+        },
+        "mStar10YrTotalCount" : {
+          "type" : "number"
+        },
+        "mStarOverallCount" : {
+          "type" : "number"
+        }
+      }
+    },
+    "mStarRatingsDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRatingsData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/mStarRatingsData"
+          }
+        }
+      }
+    },
+    "mStarRatingsDetail" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRatingsDataSets" : {
+          "$ref" : "#/definitions/mStarRatingsDataSets"
+        }
+      }
+    },
+    "mStarRatingsDetails" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRatingsDetail" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarRatingsDetail"
+          }
+        }
+      }
+    },
+    "mStarReturnsSnapshotData" : {
+      "type" : "object",
+      "properties" : {
+        "returnsAsOfDate" : {
+          "type" : "string"
+        },
+        "mStarCategoryName" : {
+          "type" : "string"
+        },
+        "fundCategoryReturn" : {
+          "type" : "number"
+        }
+      }
+    },
+    "mStarReturnsSnapshotDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "mStarReturnsSnapshotData" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarReturnsSnapshotData"
+          }
+        }
+      }
+    },
+    "mStarReturnsSnapshotDetail" : {
+      "type" : "object",
+      "properties" : {
+        "mStarReturnsSnapshotDataSets" : {
+          "$ref" : "#/definitions/mStarReturnsSnapshotDataSets"
+        }
+      }
+    },
+    "mStarReturnsSnapshotDetails" : {
+      "type" : "object",
+      "properties" : {
+        "mStarReturnsSnapshotDetail" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarReturnsSnapshotDetail"
+          }
+        }
+      }
+    },
+    "mStarRiskSnapshotData" : {
+      "type" : "object",
+      "properties" : {
+        "categoryRiskAsOfDate" : {
+          "type" : "string"
+        },
+        "categoryRisk" : {
+          "type" : "number"
+        },
+        "mStarCategoryName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "mStarRiskSnapshotDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRiskSnapshotData" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarRiskSnapshotData"
+          }
+        }
+      }
+    },
+    "mStarRiskSnapshotDetail" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRiskSnapshotDataSets" : {
+          "$ref" : "#/definitions/mStarRiskSnapshotDataSets"
+        }
+      }
+    },
+    "mStarRiskSnapshotDetails" : {
+      "type" : "object",
+      "properties" : {
+        "mStarRiskSnapshotDetail" : {
+          "type" : "array",
+          "readOnly" : true,
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/mStarRiskSnapshotDetail"
+          }
+        }
+      }
+    },
+    "morningStar" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "morningStarDetails" : {
+          "$ref" : "#/definitions/MorningStarDetails"
+        }
+      }
+    },
+    "BenchMarkPerfDetails" : {
+      "type" : "object",
+      "properties" : {
+        "benchMarkPerformanceDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/BenchMarkPerformanceDetail"
+          }
+        }
+      }
+    },
+    "BenchMarkPerformanceDetail" : {
+      "type" : "object",
+      "properties" : {
+        "cumulativeReturnsYTD" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns1Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns3Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns5Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns10Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturnsLife" : {
+          "type" : "number"
+        }
+      }
+    },
+    "FundPerfDetails" : {
+      "type" : "object",
+      "properties" : {
+        "fundPerformanceDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FundPerformanceDetail"
+          }
+        }
+      }
+    },
+    "FundPerformanceDetail" : {
+      "type" : "object",
+      "properties" : {
+        "cumulativeReturnsYTD" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns1Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns3Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns5Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns10Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturnsLife" : {
+          "type" : "number"
+        }
+      }
+    },
+    "FundQtrAvgAnnualTotalDetail" : {
+      "type" : "object",
+      "properties" : {
+        "avgQuarterlyAnnualReturns1Yr" : {
+          "type" : "number"
+        },
+        "avgQuarterlyAnnualReturns3Yr" : {
+          "type" : "number"
+        },
+        "avgQuarterlyAnnualReturns5Yr" : {
+          "type" : "number"
+        },
+        "avgQuarterlyAnnualReturns10Yr" : {
+          "type" : "number"
+        },
+        "avgQuarterlyAnnualReturnsLife" : {
+          "type" : "number"
+        }
+      }
+    },
+    "FundQtrAvgAnnualTotalDetails" : {
+      "type" : "object",
+      "properties" : {
+        "qtrAvgAnnualReturnsDate" : {
+          "type" : "string"
+        },
+        "fundQtrAvgAnnualTotalDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FundQtrAvgAnnualTotalDetail"
+          }
+        }
+      }
+    },
+    "MorningStarPerfDetails" : {
+      "type" : "object",
+      "properties" : {
+        "morningStarPerformanceDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/MorningStarPerformanceDetail"
+          }
+        }
+      }
+    },
+    "MorningStarPerformanceDetail" : {
+      "type" : "object",
+      "properties" : {
+        "cumulativeReturnsYTD" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns1Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns3Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns5Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturns10Yr" : {
+          "type" : "number"
+        },
+        "avgAnnualReturnsLife" : {
+          "type" : "number"
+        }
+      }
+    },
+    "PerfDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "performanceData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/PerformanceData"
+          }
+        }
+      }
+    },
+    "PerfDetails" : {
+      "type" : "object",
+      "properties" : {
+        "performanceDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/PerformanceDetail"
+          }
+        }
+      }
+    },
+    "PerformanceData" : {
+      "type" : "object",
+      "properties" : {
+        "fundPerfDetails" : {
+          "$ref" : "#/definitions/FundPerfDetails"
+        },
+        "benchMarkPerfDetails" : {
+          "$ref" : "#/definitions/BenchMarkPerfDetails"
+        },
+        "morningStarPerfDetails" : {
+          "$ref" : "#/definitions/MorningStarPerfDetails"
+        },
+        "fundQtrAvgAnnualTotalDetails" : {
+          "$ref" : "#/definitions/FundQtrAvgAnnualTotalDetails"
+        },
+        "avgAnnualReturnsAOD" : {
+          "type" : "string"
+        },
+        "fundYTDAOD" : {
+          "type" : "string"
+        },
+        "fundInceptionDate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PerformanceDetail" : {
+      "type" : "object",
+      "properties" : {
+        "perfDataSets" : {
+          "$ref" : "#/definitions/PerfDataSets"
+        }
+      }
+    },
+    "performance" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "perfDetails" : {
+          "$ref" : "#/definitions/PerfDetails"
+        }
+      }
+    },
+    "EquityStyleMap" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "equityStyleMapDetails" : {
+          "$ref" : "#/definitions/EquityStyleMapDetails"
+        }
+      }
+    },
+    "EquityStyleMapData" : {
+      "type" : "object",
+      "properties" : {
+        "asOfDate" : {
+          "type" : "string"
+        },
+        "styleName" : {
+          "type" : "string"
+        },
+        "largeValue" : {
+          "type" : "string"
+        },
+        "largeBlend" : {
+          "type" : "string"
+        },
+        "largeGrowth" : {
+          "type" : "string"
+        },
+        "midValue" : {
+          "type" : "string"
+        },
+        "midBlend" : {
+          "type" : "string"
+        },
+        "midGrowth" : {
+          "type" : "string"
+        },
+        "smallValue" : {
+          "type" : "string"
+        },
+        "smallBlend" : {
+          "type" : "string"
+        },
+        "smallGrowth" : {
+          "type" : "string"
+        },
+        "styleCode" : {
+          "type" : "string"
+        },
+        "fundAssetsCovered" : {
+          "type" : "number"
+        }
+      }
+    },
+    "EquityStyleMapDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "equityStyleMapData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/EquityStyleMapData"
+          }
+        }
+      }
+    },
+    "EquityStyleMapDetail" : {
+      "type" : "object",
+      "properties" : {
+        "equityStyleMapDataSets" : {
+          "$ref" : "#/definitions/EquityStyleMapDataSets"
+        }
+      }
+    },
+    "EquityStyleMapDetails" : {
+      "type" : "object",
+      "properties" : {
+        "equityStyleMapDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/EquityStyleMapDetail"
+          }
+        }
+      }
+    },
+    "FixedIncomeStyleMap" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "fixedIncomeStyleMapDetails" : {
+          "$ref" : "#/definitions/FixedIncomeStyleMapDetails"
+        }
+      }
+    },
+    "FixedIncomeStyleMapData" : {
+      "type" : "object",
+      "properties" : {
+        "asOfDate" : {
+          "type" : "string"
+        },
+        "styleName" : {
+          "type" : "string"
+        },
+        "highExtensive" : {
+          "type" : "string"
+        },
+        "highLimited" : {
+          "type" : "string"
+        },
+        "highModerate" : {
+          "type" : "string"
+        },
+        "lowExtensive" : {
+          "type" : "string"
+        },
+        "lowLimited" : {
+          "type" : "string"
+        },
+        "lowModerate" : {
+          "type" : "string"
+        },
+        "mediumExtensive" : {
+          "type" : "string"
+        },
+        "mediumLimited" : {
+          "type" : "string"
+        },
+        "mediumModerate" : {
+          "type" : "string"
+        },
+        "styleCode" : {
+          "type" : "string"
+        },
+        "fundAssetsCovered" : {
+          "type" : "number"
+        }
+      }
+    },
+    "FixedIncomeStyleMapDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "fixedIncomeStyleMapData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FixedIncomeStyleMapData"
+          }
+        }
+      }
+    },
+    "FixedIncomeStyleMapDetail" : {
+      "type" : "object",
+      "properties" : {
+        "fixedIncomeStyleMapDataSets" : {
+          "$ref" : "#/definitions/FixedIncomeStyleMapDataSets"
+        }
+      }
+    },
+    "FixedIncomeStyleMapDetails" : {
+      "type" : "object",
+      "properties" : {
+        "fixedIncomeStyleMapDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/FixedIncomeStyleMapDetail"
+          }
+        }
+      }
+    },
+    "StyleMapDetails" : {
+      "type" : "object",
+      "properties" : {
+        "equityStyleMap" : {
+          "$ref" : "#/definitions/EquityStyleMap"
+        },
+        "fixedIncomeStyleMap" : {
+          "$ref" : "#/definitions/FixedIncomeStyleMap"
+        }
+      }
+    },
+    "styleMap" : {
+      "type" : "object",
+      "properties" : {
+        "styleMapDetails" : {
+          "$ref" : "#/definitions/StyleMapDetails"
+        }
+      }
+    },
+    "Top10HoldingDetail" : {
+      "type" : "object",
+      "properties" : {
+        "subClassName" : {
+          "type" : "string"
+        },
+        "holdings" : {
+          "type" : "string"
+        },
+        "sequenceNum" : {
+          "type" : "number"
+        }
+      }
+    },
+    "Top10HoldingDetails" : {
+      "type" : "object",
+      "properties" : {
+        "top10HoldingDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/Top10HoldingDetail"
+          }
+        }
+      }
+    },
+    "TopHoldingsDetail" : {
+      "type" : "object",
+      "properties" : {
+        "topHoldingsDetailDataSets" : {
+          "$ref" : "#/definitions/TopHoldingsDetailDataSets"
+        }
+      }
+    },
+    "TopHoldingsDetailData" : {
+      "type" : "object",
+      "properties" : {
+        "totalHoldings" : {
+          "type" : "number"
+        },
+        "pctOfTotalPortfolio" : {
+          "type" : "number"
+        },
+        "top10HoldingDetails" : {
+          "$ref" : "#/definitions/Top10HoldingDetails"
+        },
+        "asOfDate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TopHoldingsDetailDataSets" : {
+      "type" : "object",
+      "properties" : {
+        "topHoldingsDetailData" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/TopHoldingsDetailData"
+          }
+        }
+      }
+    },
+    "TopHoldingsDetails" : {
+      "type" : "object",
+      "properties" : {
+        "topHoldingsDetail" : {
+          "type" : "array",
+          "maxItems": 100,
+          "items" : {
+            "$ref" : "#/definitions/TopHoldingsDetail"
+          }
+        }
+      }
+    },
+    "topHoldings" : {
+      "type" : "object",
+      "properties" : {
+        "sysMsgs" : {
+          "$ref" : "#/definitions/SysMsgs"
+        },
+        "secDetail" : {
+          "$ref" : "#/definitions/MutualFundSecDetail"
+        },
+        "topHoldingsDetails" : {
+          "$ref" : "#/definitions/TopHoldingsDetails"
+        }
+      }
+    }
+  }
+}

@@ -52,10 +52,10 @@ jobs:
           # Follow these steps to configure API_TOKEN https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
           api-token: ${{ secrets.API_TOKEN_ANDY }}
           # Fail if any OpenAPI file scores lower than 75
-          min-score: 75
+          min-score: 70
           #platform-url: https://demolabs.42crunch.cloud
           platform-url: https://platform-gh.demolabs.42crunch.cloud
-          default-collection-name: ImportFromGithub
+          #default-collection-name: ImportFromGithub
           # Upload results to Github code scanning
           upload-to-code-scanning: true
           # Github token for uploading the results

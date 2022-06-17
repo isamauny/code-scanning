@@ -72,9 +72,6 @@
             "name": "pass",
             "type": "string",
             "format": "password",
-            "pattern": "^[\\w&@#!?]{8,64}$",
-            "minLength": 8,
-            "maxLength": 64,
             "required": true,
             "x-42c-sample": "hellopixi"
           }

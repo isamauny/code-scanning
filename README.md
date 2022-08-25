@@ -1,2 +1,2 @@
-# code-scanning1
-Public repo to demo code scanning
+# API Discovery 
+Public repo to demo Github code scanning and git repo discovery
